@@ -199,18 +199,28 @@ export async function getCurrentUser() {
   return spotifyFetch<SpotifyUser>("/me");
 }
 
-export async function getTopTracks(timeRange: TimeRange, limit: number) {
+export async function getTopTracks(
+  timeRange: TimeRange,
+  limit: number,
+  offset: number = 0,
+) {
   const params = new URLSearchParams({
     time_range: timeRange,
     limit: String(limit),
+    offset: String(offset),
   });
   return spotifyFetch<TopTracksResponse>(`/me/top/tracks?${params}`);
 }
 
-export async function getTopArtists(timeRange: TimeRange, limit: number) {
+export async function getTopArtists(
+  timeRange: TimeRange,
+  limit: number,
+  offset: number = 0,
+) {
   const params = new URLSearchParams({
     time_range: timeRange,
     limit: String(limit),
+    offset: String(offset),
   });
   return spotifyFetch<TopArtistsResponse>(`/me/top/artists?${params}`);
 }

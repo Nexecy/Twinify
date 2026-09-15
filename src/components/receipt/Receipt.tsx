@@ -73,18 +73,15 @@ export function genresToReceiptItems(
   artists: SpotifyArtist[],
   limit: number = 10,
 ): ReceiptItem[] {
-  const artistsWithGenres = artists.filter(
-    (a) => a.genres && a.genres.length > 0,
-  );
-  if (artistsWithGenres.length === 0) return [];
+  if (artists.length === 0) return [];
 
   const counts = new Map<string, number>();
-  const totalArtists = artistsWithGenres.length;
+  const totalArtists = artists.length;
 
-  for (const artist of artistsWithGenres) {
+  for (const artist of artists) {
     const seen = new Set<string>();
     for (const genre of artist.genres ?? []) {
-      const clean = genre.trim().toLowerCase();
+      const clean = genre.trim().toUpperCase();
       if (clean && !seen.has(clean)) {
         seen.add(clean);
         counts.set(clean, (counts.get(clean) ?? 0) + 1);
@@ -93,18 +90,18 @@ export function genresToReceiptItems(
   }
 
   return [...counts.entries()]
-    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .sort((a, b) => b[1] - a[1])
     .slice(0, limit)
     .map(([genre, count], index) => {
       const pct = (count / totalArtists) * 100;
       const pctFormatted = pct.toFixed(2);
       return {
-        id: `genre-${index}-${encodeURIComponent(genre)}`,
+        id: `genre-${index + 1}-${encodeURIComponent(genre)}`,
         rank: index + 1,
-        title: genre.toUpperCase(),
-        subtitle: `${count} of ${totalArtists} artists`,
+        title: genre,
+        subtitle: "",
         amount: `${pctFormatted}%`,
-        amountValue: Number(pctFormatted),
+        amountValue: pct,
       };
     });
 }
@@ -151,11 +148,9 @@ export function Receipt({
   const totalLabel =
     itemType === "tracks"
       ? formatDuration(items.reduce((sum, i) => sum + i.amountValue, 0))
-      : itemType === "genres"
-        ? `${items.reduce((sum, i) => sum + i.amountValue, 0).toFixed(2)}%`
-        : itemType === "stats"
-          ? items.reduce((sum, i) => sum + i.amountValue, 0).toFixed(2)
-          : String(items.reduce((sum, i) => sum + i.amountValue, 0));
+      : itemType === "genres" || itemType === "stats"
+        ? items.reduce((sum, i) => sum + i.amountValue, 0).toFixed(2)
+        : String(items.reduce((sum, i) => sum + i.amountValue, 0));
 
   const fontClass =
     font === "classic" ? "font-receipt-classic" : "font-receipt-intl";

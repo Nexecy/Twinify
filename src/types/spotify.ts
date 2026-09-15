@@ -70,6 +70,8 @@ export interface TopTracksResponse {
   total: number;
   limit: number;
   offset: number;
+  next?: string | null;
+  previous?: string | null;
 }
 
 export interface TopArtistsResponse {
@@ -77,6 +79,8 @@ export interface TopArtistsResponse {
   total: number;
   limit: number;
   offset: number;
+  next?: string | null;
+  previous?: string | null;
 }
 
 export interface CreatedPlaylist {
