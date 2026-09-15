@@ -97,7 +97,7 @@ function LandingContent() {
                 href="https://github.com/Nexecy"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block rounded-md bg-black/40 px-1.5 py-0.5 font-semibold text-white shadow-sm transition hover:bg-black/55"
+                className="nexecy-toothless inline-block rounded-md bg-black/40 px-1.5 py-0.5 font-semibold text-white shadow-sm transition hover:bg-black/55"
               >
                 Nexecy
               </a>

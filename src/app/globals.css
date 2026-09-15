@@ -89,22 +89,41 @@ img.no-drag {
   user-select: none;
 }
 
-/* Mon hover heart — desktop/fine pointer only */
+/* Mon hover — white Toothless + purple heart (desktop/fine pointer only) */
 .mon-heart {
   position: relative;
 }
 
+.mon-heart::before,
 .mon-heart::after {
   content: none;
 }
 
 @media (hover: hover) and (pointer: fine) {
+  .mon-heart::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 0.2rem);
+    width: 1.85rem;
+    height: 1.85rem;
+    margin-left: -1.85rem;
+    background: url("/brand/toothless-sticker-white.svg") center / contain no-repeat;
+    opacity: 0;
+    transform: translateY(6px) scale(0.7);
+    pointer-events: none;
+    filter: drop-shadow(0 0 8px rgba(196, 181, 253, 0.45));
+    transition:
+      opacity 180ms ease,
+      transform 220ms ease;
+  }
+
   .mon-heart::after {
     content: "♥";
     position: absolute;
     left: 50%;
-    bottom: calc(100% + 0.15rem);
-    margin-left: -0.5em;
+    bottom: calc(100% + 0.35rem);
+    margin-left: 0.15rem;
     width: 1em;
     text-align: center;
     font-size: 0.95rem;
@@ -119,10 +138,28 @@ img.no-drag {
     text-shadow: 0 0 10px rgba(196, 181, 253, 0.55);
   }
 
+  .mon-heart:hover::before {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: mon-toothless-pop 700ms ease;
+  }
+
   .mon-heart:hover::after {
     opacity: 1;
     transform: translateY(0) scale(1);
-    animation: mon-heart-pop 700ms ease;
+    animation: mon-heart-pop 700ms ease 60ms both;
+  }
+}
+
+@keyframes mon-toothless-pop {
+  0% {
+    transform: translateY(4px) scale(0.65) rotate(8deg);
+  }
+  45% {
+    transform: translateY(-3px) scale(1.16) rotate(-6deg);
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(0deg);
   }
 }
 
@@ -135,6 +172,53 @@ img.no-drag {
   }
   100% {
     transform: translateY(0) scale(1);
+  }
+}
+
+/* Nexecy hover Toothless sticker — desktop/fine pointer only */
+.nexecy-toothless {
+  position: relative;
+}
+
+.nexecy-toothless::after {
+  content: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nexecy-toothless::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 0.2rem);
+    width: 1.85rem;
+    height: 1.85rem;
+    margin-left: -0.925rem;
+    background: url("/brand/toothless-sticker.svg") center / contain no-repeat;
+    opacity: 0;
+    transform: translateY(6px) scale(0.7);
+    pointer-events: none;
+    filter: drop-shadow(0 0 8px rgba(159, 232, 112, 0.35));
+    transition:
+      opacity 180ms ease,
+      transform 220ms ease;
+  }
+
+  .nexecy-toothless:hover::after {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: nexecy-toothless-pop 700ms ease;
+  }
+}
+
+@keyframes nexecy-toothless-pop {
+  0% {
+    transform: translateY(4px) scale(0.65) rotate(-8deg);
+  }
+  45% {
+    transform: translateY(-3px) scale(1.16) rotate(6deg);
+  }
+  100% {
+    transform: translateY(0) scale(1) rotate(0deg);
   }
 }
 
