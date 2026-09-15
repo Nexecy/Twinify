@@ -1,6 +1,6 @@
 # Twinify
 
-Spotify stats and playlist generator styled as a printable receipt — inspired by Receiptify, with playlist creation built in.
+Spotify stats and playlist generator styled as a printable receipt, inspired by Receiptify, with playlist creation built in.
 
 ## Features
 
@@ -8,7 +8,7 @@ Spotify stats and playlist generator styled as a printable receipt — inspired 
 - **Top songs / top artists** with count (5 / 10 / 15 / 50) and time range (4 weeks / 6 months / all time)
 - **Create Playlist** from your current top tracks selection
 - **Receipt printout** with perforated edges, monospace type, barcode flourish
-- **Receipt themes** (classic, purple, neon, pastel, dark, vinyl) — independent of site chrome
+- **Receipt themes** (classic, purple, neon, pastel, dark, vinyl); independent of site chrome
 - **Save as Image**, copy to clipboard, and share
 
 ## Setup

@@ -87,7 +87,7 @@ export function DashboardControls() {
           Receipt theme
         </legend>
         <p className="text-center text-xs text-brand-200/70">
-          Affects the receipt only — site chrome stays Twinify purple.
+          Affects the receipt only; site chrome stays Twinify purple.
         </p>
         <div className="flex flex-wrap justify-center gap-2">
           {RECEIPT_THEMES.map((theme) => {

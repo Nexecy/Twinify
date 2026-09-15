@@ -80,7 +80,7 @@ export function ExportActions({ receiptRef, disabled }: ExportActionsProps) {
         await saveImage();
       }
     } catch {
-      setMessage("Share unavailable — try Save as Image.");
+      setMessage("Share unavailable. Try Save as Image.");
     } finally {
       setBusy(null);
     }

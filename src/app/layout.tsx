@@ -21,7 +21,7 @@ const receipt = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Twinify — Your Spotify Receipt",
+  title: "Twinify - Your Spotify Receipt",
   description:
     "View your top Spotify tracks and artists as a printable receipt, then turn them into a real playlist.",
 };

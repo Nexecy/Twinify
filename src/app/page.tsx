@@ -6,8 +6,8 @@ import { SiteHeader } from "@/components/SiteHeader";
 
 const ERROR_MESSAGES: Record<string, string> = {
   access_denied: "Spotify login was cancelled.",
-  missing_code: "Login failed — missing authorization code.",
-  invalid_state: "Login failed — invalid session state. Try again.",
+  missing_code: "Login failed: missing authorization code.",
+  invalid_state: "Login failed: invalid session state. Try again.",
   token_exchange: "Could not complete Spotify login. Check app credentials.",
 };
 
@@ -36,9 +36,9 @@ function LandingContent() {
             Twinify
           </h1>
           <p className="animate-fade-up-delay mx-auto mt-4 max-w-md text-base leading-relaxed text-brand-100/85 sm:mt-5 sm:text-lg md:text-xl">
-            Your Spotify taste, printed as a receipt — then turned into a real
-            playlist in one tap.
-          </p>
+              Your Spotify taste, printed as a receipt, then turned into a real
+              playlist in one tap.
+            </p>
 
           {errorMessage ? (
             <p
@@ -83,8 +83,13 @@ function LandingContent() {
               >
                 Nexecy
               </a>
-              — a developer who likes turning everyday Spotify listening into
+              , a developer who likes turning everyday Spotify listening into
               something you can print, share, and play back as a real playlist.
+            </p>
+            <p className="mt-3 text-sm leading-relaxed text-brand-100/80 sm:text-base">
+              The purple branding and the name Twinify both come from his
+              girlfriend: twin energy, her favorite color, and a little love
+              built into every receipt.
             </p>
           </aside>
         </section>
