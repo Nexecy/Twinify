@@ -25,6 +25,7 @@ export const METRIC_OPTIONS: { value: ItemType; label: string }[] = [
   { value: "tracks", label: "Top Tracks" },
   { value: "artists", label: "Top Artists" },
   { value: "genres", label: "Top Genres" },
+  { value: "stats", label: "Stats" },
 ];
 
 export const TIME_RANGES: { value: TimeRange; label: string }[] = [

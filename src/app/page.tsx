@@ -94,17 +94,29 @@ function LandingContent() {
 
         <section className="relative flex w-full flex-col items-center text-center">
           <h1 className="animate-fade-up flex flex-col items-center gap-4">
-            <Image
-              src="/brand/twynify-logo-white.png"
-              alt=""
-              width={280}
-              height={140}
-              className="no-drag h-16 w-auto sm:h-20 md:h-24"
-              priority
-              draggable={false}
-              onDragStart={(e) => e.preventDefault()}
-              aria-hidden
-            />
+            <span
+              className="pointer-events-none inline-block select-none"
+              style={{ WebkitTouchCallout: "none" }}
+              onContextMenu={(e) => e.preventDefault()}
+            >
+              <Image
+                src="/brand/twynify-logo-white.png"
+                alt=""
+                width={280}
+                height={140}
+                className="no-drag brand-logo pointer-events-none h-16 w-auto select-none sm:h-20 md:h-24"
+                style={{
+                  WebkitTouchCallout: "none",
+                  pointerEvents: "none",
+                  userSelect: "none",
+                }}
+                priority
+                draggable={false}
+                onDragStart={(e) => e.preventDefault()}
+                onContextMenu={(e) => e.preventDefault()}
+                aria-hidden
+              />
+            </span>
             <span className="brand-mark text-5xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl">
               Twynify
             </span>

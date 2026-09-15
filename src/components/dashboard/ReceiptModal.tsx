@@ -7,9 +7,9 @@ interface ReceiptModalProps {
   onClose: () => void;
   dataUrl: string | null;
   file: File | null;
+  filename?: string;
   onShare?: () => Promise<void>;
   onDownload?: () => void;
-  onCopy?: () => Promise<void>;
 }
 
 export function ReceiptModal({
@@ -17,11 +17,10 @@ export function ReceiptModal({
   onClose,
   dataUrl,
   file,
+  filename = "twynify-receipt.png",
   onShare,
   onDownload,
-  onCopy,
 }: ReceiptModalProps) {
-  const [copied, setCopied] = useState(false);
   const [sharing, setSharing] = useState(false);
 
   useEffect(() => {
@@ -68,27 +67,6 @@ export function ReceiptModal({
     }
   };
 
-  const handleCopyClick = async () => {
-    if (onCopy) {
-      await onCopy();
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-      return;
-    }
-
-    if (file && typeof navigator !== "undefined" && navigator.clipboard?.write) {
-      try {
-        await navigator.clipboard.write([
-          new ClipboardItem({ [file.type]: file }),
-        ]);
-        setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
-      } catch (err) {
-        console.error("Clipboard write failed", err);
-      }
-    }
-  };
-
   const handleDownloadClick = () => {
     if (onDownload) {
       onDownload();
@@ -96,7 +74,7 @@ export function ReceiptModal({
     }
     const a = document.createElement("a");
     a.href = dataUrl;
-    a.download = `twynify-receipt-${Date.now()}.png`;
+    a.download = filename;
     a.click();
   };
 
@@ -142,7 +120,7 @@ export function ReceiptModal({
               </span>
             ) : (
               <span>
-                Press &amp; hold image to save or copy, or use buttons below.
+                Press &amp; hold image to save, or use the buttons below.
               </span>
             )}
           </p>
@@ -183,22 +161,13 @@ export function ReceiptModal({
             </button>
           </div>
 
-          <div className="flex gap-2">
-            <button
-              type="button"
-              onClick={handleCopyClick}
-              className="min-h-10 flex-1 rounded-full border border-white/15 bg-white/5 px-3 py-2 text-xs font-medium text-brand-100 hover:bg-white/10"
-            >
-              {copied ? "Copied to Clipboard! ✓" : "Copy Image"}
-            </button>
-            <button
-              type="button"
-              onClick={onClose}
-              className="min-h-10 rounded-full border border-white/10 px-4 py-2 text-xs font-medium text-brand-300 hover:bg-white/5"
-            >
-              Done
-            </button>
-          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="min-h-10 w-full rounded-full border border-white/10 px-4 py-2 text-xs font-medium text-brand-300 transition hover:bg-white/5"
+          >
+            Done
+          </button>
         </div>
       </div>
     </div>

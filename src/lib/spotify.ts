@@ -6,6 +6,8 @@ import {
 import { SPOTIFY_SCOPES } from "@/lib/constants";
 import type {
   CreatedPlaylist,
+  SpotifyArtist,
+  SpotifyAudioFeatures,
   SpotifyUser,
   TimeRange,
   TokenSet,
@@ -244,4 +246,25 @@ export async function createPlaylist(input: {
   }
 
   return created;
+}
+
+export async function getArtists(ids: string[]) {
+  if (ids.length === 0) {
+    return { data: { artists: [] as SpotifyArtist[] }, status: 200 };
+  }
+  const chunk = ids.slice(0, 50).join(",");
+  return spotifyFetch<{ artists: SpotifyArtist[] }>(`/artists?ids=${chunk}`);
+}
+
+export async function getAudioFeatures(trackIds: string[]) {
+  if (trackIds.length === 0) {
+    return {
+      data: { audio_features: [] as (SpotifyAudioFeatures | null)[] },
+      status: 200,
+    };
+  }
+  const chunk = trackIds.slice(0, 100).join(",");
+  return spotifyFetch<{
+    audio_features: (SpotifyAudioFeatures | null)[];
+  }>(`/audio-features?ids=${chunk}`);
 }

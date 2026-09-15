@@ -125,7 +125,9 @@ export function Receipt({
   const totalLabel =
     itemType === "tracks"
       ? formatDuration(items.reduce((sum, i) => sum + i.amountValue, 0))
-      : String(items.reduce((sum, i) => sum + i.amountValue, 0));
+      : itemType === "stats"
+        ? items.reduce((sum, i) => sum + i.amountValue, 0).toFixed(2)
+        : String(items.reduce((sum, i) => sum + i.amountValue, 0));
 
   const fontClass =
     font === "classic" ? "font-receipt-classic" : "font-receipt-intl";
@@ -162,7 +164,7 @@ export function Receipt({
         <hr className="receipt-dashed" />
 
         <div
-          className="grid grid-cols-[2.1rem_minmax(0,1fr)_2.9rem] gap-x-1.5 text-[10px] font-semibold uppercase tracking-[0.12em]"
+          className="grid grid-cols-[1.85rem_minmax(0,1fr)_auto] items-center gap-x-2 text-[10px] font-semibold uppercase tracking-[0.12em]"
           style={{ color: "var(--r-muted)" }}
         >
           <span>Qty</span>
@@ -176,7 +178,7 @@ export function Receipt({
           {items.map((item) => (
             <li
               key={item.id}
-              className="grid grid-cols-[2.1rem_minmax(0,1fr)_2.9rem] items-start gap-x-1.5 text-left"
+              className="grid grid-cols-[1.85rem_minmax(0,1fr)_auto] items-start gap-x-2 text-left"
             >
               <span className="text-[11px] tabular-nums leading-snug">
                 {String(item.rank).padStart(2, "0")}
@@ -185,7 +187,7 @@ export function Receipt({
                 <p className="truncate text-[11px] font-medium leading-snug tracking-[0.01em]">
                   {item.title}
                 </p>
-                {itemType !== "genres" ? (
+                {itemType !== "genres" && itemType !== "stats" ? (
                   <p
                     className="truncate text-[9px] leading-snug tracking-[0.01em]"
                     style={{ color: "var(--r-muted)" }}
@@ -194,7 +196,7 @@ export function Receipt({
                   </p>
                 ) : null}
               </div>
-              <span className="text-right text-[11px] tabular-nums leading-snug">
+              <span className="whitespace-nowrap text-right text-[11px] tabular-nums leading-snug">
                 {item.amount}
               </span>
             </li>

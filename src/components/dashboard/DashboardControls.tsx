@@ -116,13 +116,15 @@ export function DashboardControls() {
         columns={3}
       />
 
-      <Segmented<ItemCount>
-        label="Length"
-        value={count}
-        onChange={setCount}
-        options={LENGTH_OPTIONS}
-        columns={4}
-      />
+      {itemType !== "stats" ? (
+        <Segmented<ItemCount>
+          label="Length"
+          value={count}
+          onChange={setCount}
+          options={LENGTH_OPTIONS}
+          columns={4}
+        />
+      ) : null}
 
       <Segmented<ReceiptFont>
         label="Font"

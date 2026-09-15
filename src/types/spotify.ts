@@ -1,7 +1,19 @@
 export type TimeRange = "short_term" | "medium_term" | "long_term";
-export type ItemType = "tracks" | "artists" | "genres";
+export type ItemType = "tracks" | "artists" | "genres" | "stats";
 export type ItemCount = 5 | 10 | 15 | 50;
 export type ReceiptFont = "classic" | "international";
+
+export interface SpotifyAudioFeatures {
+  id: string;
+  danceability: number;
+  energy: number;
+  tempo: number;
+  valence: number;
+  acousticness: number;
+  instrumentalness: number;
+  speechiness?: number;
+  liveness?: number;
+}
 
 export type ReceiptThemeId =
   | "classic"
@@ -31,6 +43,7 @@ export interface SpotifyAlbum {
   id: string;
   name: string;
   images: SpotifyImage[];
+  release_date?: string;
 }
 
 export interface SpotifyTrack {

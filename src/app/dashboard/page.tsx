@@ -11,6 +11,7 @@ import {
 import { ReceiptExplained } from "@/components/dashboard/ReceiptExplained";
 import {
   Receipt,
+  ReceiptItem,
   artistsToReceiptItems,
   genresToReceiptItems,
   tracksToReceiptItems,
@@ -24,6 +25,7 @@ export default function DashboardPage() {
   const receiptRef = useRef<HTMLDivElement>(null);
   const [playlistOpen, setPlaylistOpen] = useState(false);
   const [playlistUris, setPlaylistUris] = useState<string[]>([]);
+  const [customItems, setCustomItems] = useState<ReceiptItem[]>([]);
 
   const user = useTwynifyStore((s) => s.user);
   const authChecked = useTwynifyStore((s) => s.authChecked);
@@ -78,10 +80,9 @@ export default function DashboardPage() {
     setLoading(true);
     setError(null);
     try {
-      const apiType = itemType === "genres" ? "artists" : itemType;
-      const limit = itemType === "genres" ? 50 : count;
+      const limit = itemType === "stats" ? 8 : count;
       const params = new URLSearchParams({
-        type: apiType,
+        type: itemType,
         time_range: timeRange,
         limit: String(limit),
       });
@@ -93,13 +94,16 @@ export default function DashboardPage() {
       if (data.error && (!data.items || data.items.length === 0)) {
         setError(data.error as string);
         if (itemType === "tracks") setTracks([]);
-        else setArtists([]);
+        else if (itemType === "artists") setArtists([]);
+        else setCustomItems([]);
         return;
       }
       if (itemType === "tracks") {
         setTracks(data.items as SpotifyTrack[]);
-      } else {
+      } else if (itemType === "artists") {
         setArtists(data.items as SpotifyArtist[]);
+      } else {
+        setCustomItems(data.items as ReceiptItem[]);
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load");
@@ -118,14 +122,27 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (!user) return;
-    void fetchTop();
+    let cancelled = false;
+    const load = async () => {
+      await Promise.resolve();
+      if (!cancelled) void fetchTop();
+    };
+    void load();
+    return () => {
+      cancelled = true;
+    };
   }, [user, fetchTop]);
 
   const receiptItems = useMemo(() => {
     if (itemType === "tracks") return tracksToReceiptItems(tracks);
-    if (itemType === "genres") return genresToReceiptItems(artists, count);
-    return artistsToReceiptItems(artists);
-  }, [itemType, tracks, artists, count]);
+    if (itemType === "artists") return artistsToReceiptItems(artists);
+    if (itemType === "genres") {
+      if (customItems.length > 0) return customItems.slice(0, count);
+      return genresToReceiptItems(artists, count);
+    }
+    if (itemType === "stats") return customItems;
+    return [];
+  }, [itemType, tracks, artists, count, customItems]);
 
   const playlistDefaults = useMemo(
     () => buildPlaylistDefaults(count, timeRange),
@@ -178,7 +195,9 @@ export default function DashboardPage() {
     <div className="receipt-stage">
       {loading ? (
         <div className="flex h-64 w-full items-center justify-center text-sm text-slate-300">
-          Loading your top {itemType}…
+          {itemType === "stats"
+            ? "Computing your listening stats…"
+            : `Loading your top ${itemType}…`}
         </div>
       ) : receiptItems.length === 0 ? (
         <div className="flex h-64 w-full items-center justify-center px-4 text-center text-sm text-slate-300">

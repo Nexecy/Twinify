@@ -3,6 +3,8 @@
 import { toPng } from "html-to-image";
 import { useCallback, useState } from "react";
 import { ReceiptModal } from "@/components/dashboard/ReceiptModal";
+import { useTwynifyStore } from "@/store/twynify-store";
+import type { ItemType, TimeRange } from "@/types/spotify";
 
 interface ExportActionsProps {
   receiptRef: React.RefObject<HTMLDivElement | null>;
@@ -14,6 +16,22 @@ interface ExportPayload {
   dataUrl: string;
   blob: Blob;
   file: File;
+}
+
+export function buildReceiptFilename(
+  itemType: ItemType,
+  timeRange: TimeRange,
+): string {
+  const rangeSlug =
+    timeRange === "short_term"
+      ? "last-month"
+      : timeRange === "medium_term"
+        ? "last-6-months"
+        : "all-time";
+
+  const typeSlug = itemType === "stats" ? "stats" : `top-${itemType}`;
+
+  return `twynify-${typeSlug}-${rangeSlug}.png`;
 }
 
 function isIOS(): boolean {
@@ -28,6 +46,7 @@ function isIOS(): boolean {
 
 async function renderReceiptToImage(
   node: HTMLDivElement,
+  filename: string,
 ): Promise<ExportPayload> {
   // Ensure custom web fonts (IBM Plex Mono, Share Tech Mono) are loaded
   if (typeof document !== "undefined" && document.fonts?.ready) {
@@ -69,7 +88,7 @@ async function renderReceiptToImage(
   const dataUrl = await toPng(node, options);
   const res = await fetch(dataUrl);
   const blob = await res.blob();
-  const file = new File([blob], `twynify-receipt-${Date.now()}.png`, {
+  const file = new File([blob], filename, {
     type: "image/png",
   });
 
@@ -81,18 +100,22 @@ export function ExportActions({
   disabled,
   compact,
 }: ExportActionsProps) {
-  const [busy, setBusy] = useState<"save" | "copy" | "share" | null>(null);
+  const [busy, setBusy] = useState<"save" | "share" | null>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [modalOpen, setModalOpen] = useState(false);
   const [currentPayload, setCurrentPayload] = useState<ExportPayload | null>(
     null,
   );
 
+  const itemType = useTwynifyStore((s) => s.itemType);
+  const timeRange = useTwynifyStore((s) => s.timeRange);
+  const filename = buildReceiptFilename(itemType, timeRange);
+
   const getPayload = useCallback(async (): Promise<ExportPayload | null> => {
     const node = receiptRef.current;
     if (!node) return null;
-    return await renderReceiptToImage(node);
-  }, [receiptRef]);
+    return await renderReceiptToImage(node, filename);
+  }, [receiptRef, filename]);
 
   const saveImage = async () => {
     setBusy("save");
@@ -135,49 +158,15 @@ export function ExportActions({
         return;
       }
 
-      // Desktop & standard browsers: direct file download
+      // Desktop & standard browsers: direct file download with clean custom name
       const link = document.createElement("a");
-      link.download = `twynify-receipt-${Date.now()}.png`;
+      link.download = filename;
       link.href = payload.dataUrl;
       link.click();
       setMessage("Saved as PNG.");
     } catch (err) {
       console.error("Save image failed", err);
       setMessage("Could not export receipt. Try again.");
-    } finally {
-      setBusy(null);
-    }
-  };
-
-  const copyImage = async () => {
-    setBusy("copy");
-    setMessage(null);
-    try {
-      const payload = await getPayload();
-      if (!payload) {
-        setMessage("Receipt not ready yet.");
-        return;
-      }
-      setCurrentPayload(payload);
-
-      if (!navigator.clipboard || !window.ClipboardItem) {
-        setModalOpen(true);
-        setMessage("Tap and hold the receipt in the preview to copy.");
-        return;
-      }
-
-      try {
-        await navigator.clipboard.write([
-          new ClipboardItem({ [payload.blob.type]: payload.blob }),
-        ]);
-        setMessage("Copied to clipboard.");
-      } catch {
-        // Many mobile browsers (especially Safari iOS) reject clipboard writes for images
-        setModalOpen(true);
-        setMessage("Press and hold the receipt to Copy or Save.");
-      }
-    } catch {
-      setMessage("Could not copy receipt.");
     } finally {
       setBusy(null);
     }
@@ -208,8 +197,7 @@ export function ExportActions({
             // User dismissed share sheet
             return;
           }
-          // If transient activation timed out or share failed, open modal where
-          // user can trigger a fresh share click immediately.
+          // If transient activation timed out or share failed, open modal
           setModalOpen(true);
           return;
         }
@@ -227,7 +215,7 @@ export function ExportActions({
 
   const btnBase = compact
     ? "min-h-11 flex-1 rounded-full px-3 py-2.5 text-xs font-semibold"
-    : "min-h-11 rounded-full px-4 py-2.5 text-sm font-semibold";
+    : "min-h-11 rounded-full px-6 py-2.5 text-sm font-semibold";
 
   return (
     <>
@@ -235,7 +223,7 @@ export function ExportActions({
         className={`w-full ${compact ? "space-y-1" : "space-y-2"} text-center`}
       >
         <div
-          className={`flex ${compact ? "gap-2" : "flex-wrap justify-center gap-2"}`}
+          className={`flex ${compact ? "gap-2" : "flex-wrap justify-center gap-3"}`}
         >
           <button
             type="button"
@@ -248,18 +236,6 @@ export function ExportActions({
               : compact
                 ? "Save"
                 : "Save as Image"}
-          </button>
-          <button
-            type="button"
-            disabled={disabled || busy !== null}
-            onClick={copyImage}
-            className={`${btnBase} border border-white/15 bg-white/5 text-brand-50 hover:bg-white/10 active:scale-[0.98] disabled:opacity-50`}
-          >
-            {busy === "copy"
-              ? "Copying…"
-              : compact
-                ? "Copy"
-                : "Copy to Clipboard"}
           </button>
           <button
             type="button"
@@ -282,6 +258,7 @@ export function ExportActions({
         onClose={() => setModalOpen(false)}
         dataUrl={currentPayload?.dataUrl ?? null}
         file={currentPayload?.file ?? null}
+        filename={filename}
       />
     </>
   );

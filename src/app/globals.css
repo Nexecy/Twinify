@@ -75,18 +75,23 @@ body {
   letter-spacing: -0.03em;
 }
 
-/* Prevent dragging / selecting brand assets */
+/* Prevent dragging / selecting / long-press saving brand assets */
 .no-drag,
-.no-drag img {
+.no-drag img,
+img.no-drag,
+.brand-logo,
+.brand-logo img {
   -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
   user-select: none;
   -webkit-user-select: none;
-  pointer-events: auto;
-}
-
-img.no-drag {
-  -webkit-user-drag: none;
-  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-touch-callout: none !important;
+  pointer-events: none !important;
 }
 
 /* Mon — white Toothless + purple heart */
