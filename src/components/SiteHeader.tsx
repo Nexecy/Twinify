@@ -2,12 +2,12 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { TwinifyLogo } from "@/components/TwinifyLogo";
-import { useTwinifyStore } from "@/store/twinify-store";
+import { TwynifyLogo } from "@/components/TwynifyLogo";
+import { useTwynifyStore } from "@/store/twynify-store";
 
 export function SiteHeader({ showLogout = false }: { showLogout?: boolean }) {
-  const user = useTwinifyStore((s) => s.user);
-  const setUser = useTwinifyStore((s) => s.setUser);
+  const user = useTwynifyStore((s) => s.user);
+  const setUser = useTwynifyStore((s) => s.setUser);
   const router = useRouter();
 
   const logout = async () => {
@@ -19,7 +19,7 @@ export function SiteHeader({ showLogout = false }: { showLogout?: boolean }) {
   return (
     <header className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-3 py-4 sm:px-6 sm:py-5">
       <Link href={user ? "/dashboard" : "/"} className="group min-w-0">
-        <TwinifyLogo
+        <TwynifyLogo
           variant="white"
           size={28}
           withWordmark={false}

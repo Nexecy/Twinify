@@ -16,7 +16,7 @@ import {
   tracksToReceiptItems,
 } from "@/components/receipt/Receipt";
 import { SiteHeader } from "@/components/SiteHeader";
-import { useTwinifyStore } from "@/store/twinify-store";
+import { useTwynifyStore } from "@/store/twynify-store";
 import type { SpotifyArtist, SpotifyTrack, SpotifyUser } from "@/types/spotify";
 
 export default function DashboardPage() {
@@ -25,23 +25,23 @@ export default function DashboardPage() {
   const [playlistOpen, setPlaylistOpen] = useState(false);
   const [playlistUris, setPlaylistUris] = useState<string[]>([]);
 
-  const user = useTwinifyStore((s) => s.user);
-  const authChecked = useTwinifyStore((s) => s.authChecked);
-  const itemType = useTwinifyStore((s) => s.itemType);
-  const count = useTwinifyStore((s) => s.count);
-  const timeRange = useTwinifyStore((s) => s.timeRange);
-  const receiptTheme = useTwinifyStore((s) => s.receiptTheme);
-  const receiptFont = useTwinifyStore((s) => s.receiptFont);
-  const tracks = useTwinifyStore((s) => s.tracks);
-  const artists = useTwinifyStore((s) => s.artists);
-  const loading = useTwinifyStore((s) => s.loading);
-  const error = useTwinifyStore((s) => s.error);
-  const setUser = useTwinifyStore((s) => s.setUser);
-  const setAuthChecked = useTwinifyStore((s) => s.setAuthChecked);
-  const setTracks = useTwinifyStore((s) => s.setTracks);
-  const setArtists = useTwinifyStore((s) => s.setArtists);
-  const setLoading = useTwinifyStore((s) => s.setLoading);
-  const setError = useTwinifyStore((s) => s.setError);
+  const user = useTwynifyStore((s) => s.user);
+  const authChecked = useTwynifyStore((s) => s.authChecked);
+  const itemType = useTwynifyStore((s) => s.itemType);
+  const count = useTwynifyStore((s) => s.count);
+  const timeRange = useTwynifyStore((s) => s.timeRange);
+  const receiptTheme = useTwynifyStore((s) => s.receiptTheme);
+  const receiptFont = useTwynifyStore((s) => s.receiptFont);
+  const tracks = useTwynifyStore((s) => s.tracks);
+  const artists = useTwynifyStore((s) => s.artists);
+  const loading = useTwynifyStore((s) => s.loading);
+  const error = useTwynifyStore((s) => s.error);
+  const setUser = useTwynifyStore((s) => s.setUser);
+  const setAuthChecked = useTwynifyStore((s) => s.setAuthChecked);
+  const setTracks = useTwynifyStore((s) => s.setTracks);
+  const setArtists = useTwynifyStore((s) => s.setArtists);
+  const setLoading = useTwynifyStore((s) => s.setLoading);
+  const setError = useTwynifyStore((s) => s.setError);
 
   useEffect(() => {
     let cancelled = false;

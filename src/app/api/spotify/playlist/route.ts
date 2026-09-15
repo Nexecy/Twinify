@@ -38,7 +38,7 @@ export async function POST(request: NextRequest) {
 
   const result = await createPlaylist({
     name,
-    description: body.description?.trim() || "Created with Twinify",
+    description: body.description?.trim() || "Created with Twynify",
     isPublic: body.isPublic ?? true,
     trackUris,
   });
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     const raw = result.error ?? "Failed to create playlist";
     const friendly =
       result.status === 403
-        ? "Spotify blocked playlist creation. Log out and log back in so Twinify can get playlist permissions, then try again."
+        ? "Spotify blocked playlist creation. Log out and log back in so Twynify can get playlist permissions, then try again."
         : raw;
 
     return NextResponse.json(

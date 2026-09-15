@@ -12,7 +12,7 @@ import type {
   TimeRange,
 } from "@/types/spotify";
 
-interface TwinifyState {
+interface TwynifyState {
   user: SpotifyUser | null;
   authChecked: boolean;
   itemType: ItemType;
@@ -37,7 +37,7 @@ interface TwinifyState {
   setError: (error: string | null) => void;
 }
 
-export const useTwinifyStore = create<TwinifyState>((set) => ({
+export const useTwynifyStore = create<TwynifyState>((set) => ({
   user: null,
   authChecked: false,
   itemType: "tracks",

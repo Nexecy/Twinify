@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-type TwinifyLogoProps = {
+type TwynifyLogoProps = {
   variant?: "white" | "black";
   className?: string;
   priority?: boolean;
@@ -9,17 +9,17 @@ type TwinifyLogoProps = {
   size?: number;
 };
 
-export function TwinifyLogo({
+export function TwynifyLogo({
   variant = "white",
   className = "",
   priority = false,
   withWordmark = true,
   size = 36,
-}: TwinifyLogoProps) {
+}: TwynifyLogoProps) {
   const src =
     variant === "white"
-      ? "/brand/twinify-logo-white.png"
-      : "/brand/twinify-logo-black.png";
+      ? "/brand/twynify-logo-white.png"
+      : "/brand/twynify-logo-black.png";
 
   return (
     <span className={`inline-flex items-center gap-2.5 ${className}`}>
@@ -37,10 +37,10 @@ export function TwinifyLogo({
       />
       {withWordmark ? (
         <span className="brand-mark text-xl font-extrabold tracking-tight text-white sm:text-2xl">
-          Twinify
+          Twynify
         </span>
       ) : (
-        <span className="sr-only">Twinify</span>
+        <span className="sr-only">Twynify</span>
       )}
     </span>
   );

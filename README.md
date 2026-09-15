@@ -1,4 +1,4 @@
-# Twinify
+# Twynify
 
 Spotify stats and playlist generator styled as a printable receipt, inspired by Receiptify, with playlist creation built in.
 
@@ -50,7 +50,7 @@ src/
     receipt/Receipt.tsx
     dashboard/*              # Controls, export, playlist modal
   lib/                       # Spotify client, auth cookies, constants
-  store/twinify-store.ts     # Zustand state
+  store/twynify-store.ts     # Zustand state
   types/spotify.ts
 ```
 

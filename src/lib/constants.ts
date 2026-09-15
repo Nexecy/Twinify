@@ -66,8 +66,8 @@ export const RECEIPT_THEMES: {
 ];
 
 export const COOKIE_NAMES = {
-  accessToken: "twinify_access_token",
-  refreshToken: "twinify_refresh_token",
-  expiresAt: "twinify_expires_at",
-  oauthState: "twinify_oauth_state",
+  accessToken: "twynify_access_token",
+  refreshToken: "twynify_refresh_token",
+  expiresAt: "twynify_expires_at",
+  oauthState: "twynify_oauth_state",
 } as const;

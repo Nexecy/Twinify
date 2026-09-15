@@ -46,7 +46,7 @@ export function ExportActions({
   const saveImage = () =>
     withNode("save", async (dataUrl) => {
       const link = document.createElement("a");
-      link.download = `twinify-receipt-${Date.now()}.png`;
+      link.download = `twynify-receipt-${Date.now()}.png`;
       link.href = dataUrl;
       link.click();
       setMessage("Saved as PNG.");
@@ -74,14 +74,14 @@ export function ExportActions({
       const dataUrl = await renderReceipt(node);
       const res = await fetch(dataUrl);
       const blob = await res.blob();
-      const file = new File([blob], "twinify-receipt.png", {
+      const file = new File([blob], "twynify-receipt.png", {
         type: "image/png",
       });
       if (navigator.share && navigator.canShare?.({ files: [file] })) {
         await navigator.share({
           files: [file],
-          title: "My Twinify receipt",
-          text: "My Spotify listening receipt from Twinify",
+          title: "My Twynify receipt",
+          text: "My Spotify listening receipt from Twynify",
         });
         setMessage("Shared.");
       } else {

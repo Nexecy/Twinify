@@ -35,7 +35,7 @@ function LandingContent() {
         <section className="relative flex w-full flex-col items-center text-center">
           <h1 className="animate-fade-up flex flex-col items-center gap-4">
             <Image
-              src="/brand/twinify-logo-white.png"
+              src="/brand/twynify-logo-white.png"
               alt=""
               width={280}
               height={140}
@@ -46,7 +46,7 @@ function LandingContent() {
               aria-hidden
             />
             <span className="brand-mark text-5xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl">
-              Twinify
+              Twynify
             </span>
           </h1>
           <p className="animate-fade-up-delay mx-auto mt-4 max-w-md text-base leading-relaxed text-brand-100/85 sm:mt-5 sm:text-lg md:text-xl">
@@ -89,7 +89,7 @@ function LandingContent() {
             </p>
             <p className="mt-3 text-sm leading-relaxed text-brand-100/85 sm:text-base">
               Named by{" "}
-              <span className="mon-heart inline-block rounded-md bg-brand-100/40 px-1.5 py-0.5 font-semibold text-brand-200 shadow-sm">
+              <span className="mon-heart inline-block cursor-pointer rounded-md bg-brand-100/40 px-1.5 py-0.5 font-semibold text-brand-200 shadow-sm transition hover:bg-brand-100/55">
                 Mon
               </span>
               , styled in her favorite purple, and built with love by{" "}
@@ -108,7 +108,7 @@ function LandingContent() {
       </main>
 
       <footer className="border-t border-white/5 px-4 py-4 text-center text-xs text-brand-300/60">
-        Twinify is not affiliated with Spotify. Requires a Spotify account.
+        Twynify is not affiliated with Spotify. Requires a Spotify account.
       </footer>
     </div>
   );
@@ -138,7 +138,7 @@ function DemoReceipt() {
         <div className="receipt-body">
           <header className="text-center">
             <p className="text-[1.7rem] font-bold leading-none tracking-[0.08em]">
-              TWINIFY
+              TWYNIFY
             </p>
             <p className="mt-2.5 text-[10px] uppercase tracking-[0.18em]">
               Sample Receipt

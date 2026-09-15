@@ -7,7 +7,7 @@ import {
   RECEIPT_THEMES,
   TIME_RANGES,
 } from "@/lib/constants";
-import { useTwinifyStore } from "@/store/twinify-store";
+import { useTwynifyStore } from "@/store/twynify-store";
 import type { ItemCount, ItemType, ReceiptFont, TimeRange } from "@/types/spotify";
 
 function ControlLabel({ children }: { children: React.ReactNode }) {
@@ -69,16 +69,16 @@ function Segmented<T extends string | number>({
 }
 
 export function DashboardControls() {
-  const itemType = useTwinifyStore((s) => s.itemType);
-  const count = useTwinifyStore((s) => s.count);
-  const timeRange = useTwinifyStore((s) => s.timeRange);
-  const receiptTheme = useTwinifyStore((s) => s.receiptTheme);
-  const receiptFont = useTwinifyStore((s) => s.receiptFont);
-  const setItemType = useTwinifyStore((s) => s.setItemType);
-  const setCount = useTwinifyStore((s) => s.setCount);
-  const setTimeRange = useTwinifyStore((s) => s.setTimeRange);
-  const setReceiptTheme = useTwinifyStore((s) => s.setReceiptTheme);
-  const setReceiptFont = useTwinifyStore((s) => s.setReceiptFont);
+  const itemType = useTwynifyStore((s) => s.itemType);
+  const count = useTwynifyStore((s) => s.count);
+  const timeRange = useTwynifyStore((s) => s.timeRange);
+  const receiptTheme = useTwynifyStore((s) => s.receiptTheme);
+  const receiptFont = useTwynifyStore((s) => s.receiptFont);
+  const setItemType = useTwynifyStore((s) => s.setItemType);
+  const setCount = useTwynifyStore((s) => s.setCount);
+  const setTimeRange = useTwynifyStore((s) => s.setTimeRange);
+  const setReceiptTheme = useTwynifyStore((s) => s.setReceiptTheme);
+  const setReceiptFont = useTwynifyStore((s) => s.setReceiptFont);
 
   return (
     <div className="w-full space-y-6 rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur-md sm:p-6">
@@ -140,7 +140,7 @@ export function DashboardControls() {
       <div className="w-full">
         <ControlLabel>Receipt Theme</ControlLabel>
         <p className="mb-2 text-left text-xs text-brand-200/70">
-          Colors the receipt only. Twinify stays purple.
+          Colors the receipt only. Twynify stays purple.
         </p>
         <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
           {RECEIPT_THEMES.map((theme) => {

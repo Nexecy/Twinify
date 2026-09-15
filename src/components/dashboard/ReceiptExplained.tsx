@@ -1,9 +1,9 @@
 "use client";
 
-import { useTwinifyStore } from "@/store/twinify-store";
+import { useTwynifyStore } from "@/store/twynify-store";
 
 export function ReceiptExplained() {
-  const itemType = useTwinifyStore((s) => s.itemType);
+  const itemType = useTwynifyStore((s) => s.itemType);
 
   const amtLabel =
     itemType === "tracks"

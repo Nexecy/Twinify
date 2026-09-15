@@ -137,13 +137,13 @@ export function Receipt({
       data-theme={theme}
       data-font={font}
       role="img"
-      aria-label={`Twinify receipt of ${items.length} ${itemType}`}
+      aria-label={`Twynify receipt of ${items.length} ${itemType}`}
     >
       <div className="receipt-crinkle" aria-hidden />
       <div className="receipt-body">
         <header className="text-center">
           <p className="text-[1.7rem] font-bold leading-none tracking-[0.08em]">
-            TWINIFY
+            TWYNIFY
           </p>
           <p className="mt-2.5 text-[10px] uppercase tracking-[0.18em]">
             {rangeLabel}
@@ -230,7 +230,7 @@ export function Receipt({
             className="text-center text-[9px] tracking-[0.22em]"
             style={{ color: "var(--r-muted)" }}
           >
-            twinify-app.vercel.app
+            twynify-app.vercel.app
           </p>
         </footer>
       </div>

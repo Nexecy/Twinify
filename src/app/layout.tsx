@@ -27,7 +27,7 @@ const receiptClassic = Share_Tech_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Twinify - Your Spotify Receipt",
+  title: "Twynify - Your Spotify Receipt",
   description:
     "View your top Spotify tracks and artists as a printable receipt, then turn them into a real playlist.",
   icons: {

@@ -1,6 +1,6 @@
 {
-  "name": "Twinify",
-  "short_name": "Twinify",
+  "name": "Twynify",
+  "short_name": "Twynify",
   "description": "Your Spotify taste, printed as a receipt.",
   "start_url": "/",
   "display": "standalone",
