@@ -19,7 +19,7 @@ function LandingContent() {
     : null;
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-dvh flex-col">
       <SiteHeader />
       <main className="relative mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center px-4 pb-16 pt-6 sm:px-6 sm:pb-20">
         <div
@@ -156,7 +156,7 @@ export default function HomePage() {
   return (
     <Suspense
       fallback={
-        <div className="flex min-h-screen items-center justify-center text-brand-200">
+        <div className="flex min-h-dvh items-center justify-center text-brand-200">
           Loading…
         </div>
       }

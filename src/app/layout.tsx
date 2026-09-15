@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { DM_Sans, IBM_Plex_Mono, Syne } from "next/font/google";
 import "./globals.css";
 
@@ -26,13 +26,22 @@ export const metadata: Metadata = {
     "View your top Spotify tracks and artists as a printable receipt, then turn them into a real playlist.",
 };
 
+export const viewport: Viewport = {
+  themeColor: "#0f0618",
+  colorScheme: "dark",
+};
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
       className={`${display.variable} ${body.variable} ${receipt.variable} h-full antialiased`}
+      style={{ backgroundColor: "#0f0618" }}
     >
-      <body className="site-bg min-h-full flex flex-col text-foreground">
+      <body
+        className="site-bg flex min-h-dvh flex-col text-foreground"
+        style={{ backgroundColor: "#0f0618" }}
+      >
         {children}
       </body>
     </html>

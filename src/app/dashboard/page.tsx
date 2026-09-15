@@ -161,7 +161,7 @@ export default function DashboardPage() {
 
   if (!authChecked) {
     return (
-      <div className="flex min-h-screen items-center justify-center text-brand-200">
+      <div className="flex min-h-dvh items-center justify-center text-brand-200">
         Checking session…
       </div>
     );
@@ -170,7 +170,7 @@ export default function DashboardPage() {
   if (!user) return null;
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-dvh flex-col">
       <SiteHeader showLogout />
       <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center px-4 py-6 sm:px-6 sm:py-8">
         <div className="mb-6 w-full max-w-xl text-center sm:mb-8">
