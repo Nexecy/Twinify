@@ -22,6 +22,7 @@ export function SiteHeader({ showLogout = false }: { showLogout?: boolean }) {
         <TwinifyLogo
           variant="white"
           size={28}
+          withWordmark={false}
           className="transition opacity-100 group-hover:opacity-90"
         />
       </Link>
