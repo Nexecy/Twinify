@@ -59,7 +59,7 @@ function LandingContent() {
             </a>
           </div>
 
-          <div className="animate-fade-up-delay relative mt-10 w-full sm:mt-12">
+          <div className="animate-fade-up-delay relative mt-10 flex w-full justify-center sm:mt-12">
             <DemoReceipt />
           </div>
 
@@ -120,7 +120,7 @@ function DemoReceipt() {
   ];
 
   return (
-    <div className="receipt-stage w-full max-w-[340px]">
+    <div className="receipt-stage mx-auto w-full max-w-[340px]">
       <div className="receipt font-receipt-intl" data-theme="classic">
         <div className="receipt-crinkle" aria-hidden />
         <div className="receipt-body">
