@@ -130,19 +130,23 @@ export function Receipt({
   receiptRef,
 }: ReceiptProps) {
   const now = new Date();
-  const dateLabel = now.toLocaleDateString(undefined, {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-  });
-  const timeLabel = now.toLocaleTimeString(undefined, {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const dateLabel = now
+    .toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    })
+    .toUpperCase();
   const rangeLabel = TIME_RANGE_LABELS[timeRange].toUpperCase();
-  const orderNum = String((items.length * 17 + 41) % 10000).padStart(4, "0");
+  const orderNum =
+    timeRange === "short_term"
+      ? "0001"
+      : timeRange === "medium_term"
+        ? "0002"
+        : "0003";
   const year = now.getFullYear();
-  const listener = (userName || "LISTENER").toUpperCase();
+  const listener = (userName || "TWYNIFY").toUpperCase();
 
   const totalLabel =
     itemType === "tracks"
@@ -175,13 +179,10 @@ export function Receipt({
             {rangeLabel}
           </p>
           <p className="mt-3 text-[10px] uppercase tracking-[0.06em]">
-            ORDER #{orderNum}
+            ORDER #{orderNum} FOR {listener}
           </p>
           <p className="mt-1 text-[10px] uppercase tracking-[0.04em]">
-            FOR {listener}
-          </p>
-          <p className="mt-2 text-[10px] tabular-nums tracking-wide">
-            {dateLabel} · {timeLabel}
+            {dateLabel}
           </p>
         </header>
 
@@ -244,7 +245,7 @@ export function Receipt({
             style={{ color: "var(--r-muted)" }}
           >
             <p>CARD #: **** **** **** {year}</p>
-            <p>AUTH CODE: {orderNum}</p>
+            <p>AUTH CODE: 123421</p>
             <p className="truncate">CARDHOLDER: {listener}</p>
           </div>
 
