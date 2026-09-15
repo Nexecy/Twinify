@@ -73,8 +73,12 @@ function LandingContent() {
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-brand-300">
               About
             </p>
-            <p className="mt-3 text-sm leading-relaxed text-brand-100/80 sm:text-base">
-              Twinify was built by{" "}
+            <p className="mt-3 text-sm leading-relaxed text-brand-100/85 sm:text-base">
+              Named by{" "}
+              <span className="inline-block rounded-md bg-brand-100 px-1.5 py-0.5 font-semibold text-brand-800 shadow-sm">
+                Mon
+              </span>
+              , styled in her favorite purple, and built with love by{" "}
               <a
                 href="https://github.com/Nexecy"
                 target="_blank"
@@ -83,13 +87,7 @@ function LandingContent() {
               >
                 Nexecy
               </a>
-              , a developer who likes turning everyday Spotify listening into
-              something you can print, share, and play back as a real playlist.
-            </p>
-            <p className="mt-3 text-sm leading-relaxed text-brand-100/80 sm:text-base">
-              The purple branding and the name Twinify both come from his
-              girlfriend: twin energy, her favorite color, and a little love
-              built into every receipt.
+              .
             </p>
           </aside>
         </section>
