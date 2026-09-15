@@ -1,6 +1,7 @@
 export type TimeRange = "short_term" | "medium_term" | "long_term";
-export type ItemType = "tracks" | "artists";
+export type ItemType = "tracks" | "artists" | "genres";
 export type ItemCount = 5 | 10 | 15 | 50;
+export type ReceiptFont = "classic" | "international";
 
 export type ReceiptThemeId =
   | "classic"
@@ -23,6 +24,7 @@ export interface SpotifyArtist {
   external_urls: { spotify: string };
   images?: SpotifyImage[];
   genres?: string[];
+  popularity?: number;
 }
 
 export interface SpotifyAlbum {
@@ -36,6 +38,7 @@ export interface SpotifyTrack {
   name: string;
   uri: string;
   duration_ms: number;
+  popularity?: number;
   external_urls: { spotify: string };
   artists: SpotifyArtist[];
   album: SpotifyAlbum;

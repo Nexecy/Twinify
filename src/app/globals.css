@@ -33,7 +33,9 @@
   --color-brand-900: var(--brand-900);
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
-  --font-mono: var(--font-receipt);
+  --font-mono: var(--font-receipt-intl);
+  --font-receipt-classic: var(--font-receipt-classic);
+  --font-receipt-intl: var(--font-receipt-intl);
 }
 
 * {
@@ -73,7 +75,15 @@ body {
   letter-spacing: -0.03em;
 }
 
-/* Receipt theme CSS variables — scoped to .receipt[data-theme] */
+.font-receipt-classic {
+  font-family: var(--font-receipt-classic), ui-monospace, monospace;
+}
+
+.font-receipt-intl {
+  font-family: var(--font-receipt-intl), ui-monospace, monospace;
+}
+
+/* Receipt theme CSS variables - scoped to .receipt[data-theme] */
 .receipt {
   --r-bg: #f7f4ec;
   --r-fg: #1a1a1a;
@@ -81,7 +91,6 @@ body {
   --r-line: #1a1a1a;
   --r-accent: #1a1a1a;
   --r-perforation: #cfc9b8;
-  font-family: var(--font-receipt), ui-monospace, monospace;
   background: var(--r-bg);
   color: var(--r-fg);
   position: relative;

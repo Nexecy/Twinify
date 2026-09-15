@@ -64,7 +64,7 @@ function LandingContent() {
           </div>
 
           <ul className="mt-10 space-y-2 text-sm text-brand-200/80">
-            <li>Top songs & artists · 4 weeks / 6 months / all time</li>
+            <li>Top tracks, artists & genres · Last month / 6 months / all time</li>
             <li>Create a playlist from your top tracks</li>
             <li>Export a shareable receipt image</li>
           </ul>

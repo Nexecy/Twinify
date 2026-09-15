@@ -6,6 +6,7 @@ import { useState } from "react";
 interface ExportActionsProps {
   receiptRef: React.RefObject<HTMLDivElement | null>;
   disabled?: boolean;
+  compact?: boolean;
 }
 
 async function renderReceipt(node: HTMLDivElement) {
@@ -16,11 +17,18 @@ async function renderReceipt(node: HTMLDivElement) {
   });
 }
 
-export function ExportActions({ receiptRef, disabled }: ExportActionsProps) {
+export function ExportActions({
+  receiptRef,
+  disabled,
+  compact,
+}: ExportActionsProps) {
   const [busy, setBusy] = useState<"save" | "copy" | null>(null);
   const [message, setMessage] = useState<string | null>(null);
 
-  const withNode = async (action: "save" | "copy", fn: (dataUrl: string) => Promise<void>) => {
+  const withNode = async (
+    action: "save" | "copy",
+    fn: (dataUrl: string) => Promise<void>,
+  ) => {
     const node = receiptRef.current;
     if (!node) return;
     setBusy(action);
@@ -86,35 +94,39 @@ export function ExportActions({ receiptRef, disabled }: ExportActionsProps) {
     }
   };
 
+  const btnBase = compact
+    ? "min-h-11 flex-1 rounded-full px-3 py-2.5 text-xs font-semibold"
+    : "min-h-11 rounded-full px-4 py-2.5 text-sm font-semibold";
+
   return (
-    <div className="w-full space-y-2 text-center">
-      <div className="flex flex-wrap justify-center gap-2">
+    <div className={`w-full ${compact ? "space-y-1" : "space-y-2"} text-center`}>
+      <div className={`flex ${compact ? "gap-2" : "flex-wrap justify-center gap-2"}`}>
         <button
           type="button"
           disabled={disabled || busy !== null}
           onClick={saveImage}
-          className="rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-brand-900 transition hover:bg-brand-50 disabled:opacity-50"
+          className={`${btnBase} bg-white text-brand-900 transition hover:bg-brand-50 disabled:opacity-50`}
         >
-          {busy === "save" ? "Saving…" : "Save as Image"}
+          {busy === "save" ? "Saving…" : compact ? "Save" : "Save as Image"}
         </button>
         <button
           type="button"
           disabled={disabled || busy !== null}
           onClick={copyImage}
-          className="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-medium text-brand-50 hover:bg-white/10 disabled:opacity-50"
+          className={`${btnBase} border border-white/15 bg-white/5 text-brand-50 hover:bg-white/10 disabled:opacity-50`}
         >
-          {busy === "copy" ? "Copying…" : "Copy to Clipboard"}
+          {busy === "copy" ? "Copying…" : compact ? "Copy" : "Copy to Clipboard"}
         </button>
         <button
           type="button"
           disabled={disabled || busy !== null}
           onClick={share}
-          className="rounded-xl border border-white/15 bg-white/5 px-4 py-2.5 text-sm font-medium text-brand-50 hover:bg-white/10 disabled:opacity-50"
+          className={`${btnBase} border border-white/15 bg-white/5 text-brand-50 hover:bg-white/10 disabled:opacity-50`}
         >
           Share
         </button>
       </div>
-      {message ? (
+      {message && !compact ? (
         <p className="text-xs text-brand-200" role="status">
           {message}
         </p>

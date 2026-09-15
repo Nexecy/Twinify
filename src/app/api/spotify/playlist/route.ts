@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createPlaylist, getCurrentUser } from "@/lib/spotify";
+import { createPlaylist, getValidAccessToken } from "@/lib/spotify";
 
 export async function POST(request: NextRequest) {
   let body: {
@@ -31,16 +31,12 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const userResult = await getCurrentUser();
-  if (!userResult.data) {
-    return NextResponse.json(
-      { error: userResult.error ?? "Unauthorized" },
-      { status: userResult.status || 401 },
-    );
+  const token = await getValidAccessToken();
+  if (!token) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
   const result = await createPlaylist({
-    userId: userResult.data.id,
     name,
     description: body.description?.trim() || "Created with Twinify",
     isPublic: body.isPublic ?? true,
@@ -48,8 +44,14 @@ export async function POST(request: NextRequest) {
   });
 
   if (result.error || !result.data) {
+    const raw = result.error ?? "Failed to create playlist";
+    const friendly =
+      result.status === 403
+        ? "Spotify blocked playlist creation. Log out and log back in so Twinify can get playlist permissions, then try again."
+        : raw;
+
     return NextResponse.json(
-      { error: result.error ?? "Failed to create playlist" },
+      { error: friendly },
       { status: result.status || 500 },
     );
   }

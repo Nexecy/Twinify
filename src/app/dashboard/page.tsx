@@ -8,9 +8,11 @@ import {
   PlaylistModal,
   buildPlaylistDefaults,
 } from "@/components/dashboard/PlaylistModal";
+import { ReceiptExplained } from "@/components/dashboard/ReceiptExplained";
 import {
   Receipt,
   artistsToReceiptItems,
+  genresToReceiptItems,
   tracksToReceiptItems,
 } from "@/components/receipt/Receipt";
 import { SiteHeader } from "@/components/SiteHeader";
@@ -29,6 +31,7 @@ export default function DashboardPage() {
   const count = useTwinifyStore((s) => s.count);
   const timeRange = useTwinifyStore((s) => s.timeRange);
   const receiptTheme = useTwinifyStore((s) => s.receiptTheme);
+  const receiptFont = useTwinifyStore((s) => s.receiptFont);
   const tracks = useTwinifyStore((s) => s.tracks);
   const artists = useTwinifyStore((s) => s.artists);
   const loading = useTwinifyStore((s) => s.loading);
@@ -75,10 +78,12 @@ export default function DashboardPage() {
     setLoading(true);
     setError(null);
     try {
+      const apiType = itemType === "genres" ? "artists" : itemType;
+      const limit = itemType === "genres" ? 50 : count;
       const params = new URLSearchParams({
-        type: itemType,
+        type: apiType,
         time_range: timeRange,
-        limit: String(count),
+        limit: String(limit),
       });
       const res = await fetch(`/api/spotify/top?${params}`);
       const data = await res.json();
@@ -118,8 +123,9 @@ export default function DashboardPage() {
 
   const receiptItems = useMemo(() => {
     if (itemType === "tracks") return tracksToReceiptItems(tracks);
+    if (itemType === "genres") return genresToReceiptItems(artists, count);
     return artistsToReceiptItems(artists);
-  }, [itemType, tracks, artists]);
+  }, [itemType, tracks, artists, count]);
 
   const playlistDefaults = useMemo(
     () => buildPlaylistDefaults(count, timeRange),
@@ -128,7 +134,6 @@ export default function DashboardPage() {
 
   const openPlaylistModal = useCallback(async () => {
     setError(null);
-    // Refresh top tracks for current count + time range before creating
     setLoading(true);
     try {
       const params = new URLSearchParams({
@@ -169,72 +174,94 @@ export default function DashboardPage() {
 
   if (!user) return null;
 
-  return (
-    <div className="flex min-h-dvh flex-col">
-      <SiteHeader showLogout />
-      <main className="mx-auto flex w-full max-w-5xl flex-1 flex-col items-center px-4 py-6 sm:px-6 sm:py-8">
-        <div className="mb-6 w-full max-w-xl text-center sm:mb-8">
-          <h1 className="brand-mark text-3xl font-extrabold text-white sm:text-4xl">
-            Your receipt
-          </h1>
-          <p className="mt-2 text-sm text-brand-200/80 sm:text-base">
-            Dial in the range, theme the printout, then save or playlist it.
-          </p>
+  const receiptPanel = (
+    <div className="flex w-full justify-center rounded-2xl border border-white/10 bg-black/20 p-3 sm:p-6">
+      {loading ? (
+        <div className="flex h-64 w-full items-center justify-center text-sm text-brand-200">
+          Loading your top {itemType}…
         </div>
+      ) : receiptItems.length === 0 ? (
+        <div className="flex h-64 w-full items-center justify-center px-4 text-center text-sm text-brand-200">
+          No items to show for this selection.
+        </div>
+      ) : (
+        <Receipt
+          receiptRef={receiptRef}
+          theme={receiptTheme}
+          font={receiptFont}
+          itemType={itemType}
+          timeRange={timeRange}
+          items={receiptItems}
+          userName={user.display_name}
+        />
+      )}
+    </div>
+  );
 
-        <div className="flex w-full flex-col items-center gap-8 lg:flex-row lg:items-start lg:justify-center lg:gap-10">
-          <section className="flex w-full max-w-xl flex-col items-center gap-5 lg:max-w-md">
-            <DashboardControls />
+  const actionBar = (
+    <div className="flex w-full flex-col gap-3">
+      <button
+        type="button"
+        disabled={loading}
+        onClick={() => void openPlaylistModal()}
+        className="min-h-12 w-full rounded-full bg-brand-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-600/30 transition hover:bg-brand-500 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        Create Playlist from My Top Songs
+      </button>
+      <ExportActions
+        receiptRef={receiptRef}
+        disabled={receiptItems.length === 0 || loading}
+      />
+      {error ? (
+        <p
+          className="w-full rounded-xl bg-amber-500/15 px-4 py-3 text-center text-sm text-amber-100"
+          role="alert"
+        >
+          {error}
+        </p>
+      ) : null}
+    </div>
+  );
 
-            <div className="flex w-full flex-col items-center gap-3">
-              <button
-                type="button"
-                disabled={loading}
-                onClick={() => void openPlaylistModal()}
-                className="w-full rounded-xl bg-brand-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-600/30 transition hover:bg-brand-500 disabled:cursor-not-allowed disabled:opacity-50 sm:w-auto sm:min-w-[240px]"
-              >
-                Create Playlist from My Top Songs
-              </button>
-              <ExportActions
-                receiptRef={receiptRef}
-                disabled={receiptItems.length === 0 || loading}
-              />
-            </div>
+  return (
+    <div className="flex min-h-dvh flex-col pb-28 lg:pb-8">
+      <SiteHeader showLogout />
+      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-3 py-4 sm:px-6 sm:py-8">
+        {/* Mobile: receipt first for instant preview */}
+        <div className="mb-6 lg:hidden">{receiptPanel}</div>
 
-            {error ? (
-              <p
-                className="w-full rounded-xl bg-amber-500/15 px-4 py-3 text-center text-sm text-amber-100"
-                role="alert"
-              >
-                {error}
-              </p>
-            ) : null}
-          </section>
-
-          <aside className="w-full max-w-[340px] shrink-0 lg:sticky lg:top-6">
-            <div className="flex justify-center rounded-2xl border border-white/10 bg-black/20 p-4 sm:p-6">
-              {loading ? (
-                <div className="flex h-64 w-full items-center justify-center text-sm text-brand-200">
-                  Loading your top {itemType}…
-                </div>
-              ) : receiptItems.length === 0 ? (
-                <div className="flex h-64 w-full items-center justify-center px-4 text-center text-sm text-brand-200">
-                  No items to show for this selection.
-                </div>
-              ) : (
-                <Receipt
-                  receiptRef={receiptRef}
-                  theme={receiptTheme}
-                  itemType={itemType}
-                  timeRange={timeRange}
-                  items={receiptItems}
-                  userName={user.display_name}
-                />
-              )}
-            </div>
+        <div className="flex w-full flex-col gap-6 lg:flex-row lg:items-start lg:justify-center lg:gap-10">
+          {/* Desktop: receipt on the left like Receiptify */}
+          <aside className="hidden w-full max-w-[360px] shrink-0 lg:sticky lg:top-6 lg:block">
+            {receiptPanel}
           </aside>
+
+          <section className="mx-auto flex w-full max-w-xl flex-col gap-5 lg:mx-0">
+            <DashboardControls />
+            <div className="hidden lg:block">{actionBar}</div>
+            <ReceiptExplained />
+          </section>
         </div>
       </main>
+
+      {/* Sticky mobile actions */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-white/10 bg-[#0f0618]/95 p-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md lg:hidden">
+        <div className="mx-auto flex max-w-xl flex-col gap-2">
+          <button
+            type="button"
+            disabled={loading}
+            onClick={() => void openPlaylistModal()}
+            className="min-h-12 w-full rounded-full bg-brand-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-600/30 active:scale-[0.98] disabled:opacity-50"
+          >
+            Create Playlist
+          </button>
+          <ExportActions
+            receiptRef={receiptRef}
+            disabled={receiptItems.length === 0 || loading}
+            compact
+          />
+        </div>
+      </div>
 
       <PlaylistModal
         open={playlistOpen}

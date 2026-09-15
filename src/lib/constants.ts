@@ -1,4 +1,10 @@
-import type { ItemCount, ReceiptThemeId, TimeRange } from "@/types/spotify";
+import type {
+  ItemCount,
+  ItemType,
+  ReceiptFont,
+  ReceiptThemeId,
+  TimeRange,
+} from "@/types/spotify";
 
 export const SPOTIFY_SCOPES = [
   "user-top-read",
@@ -8,17 +14,43 @@ export const SPOTIFY_SCOPES = [
 
 export const ITEM_COUNTS: ItemCount[] = [5, 10, 15, 50];
 
+export const LENGTH_OPTIONS: { value: ItemCount; label: string }[] = [
+  { value: 5, label: "Top 5" },
+  { value: 10, label: "Top 10" },
+  { value: 15, label: "Top 15" },
+  { value: 50, label: "Top 50" },
+];
+
+export const METRIC_OPTIONS: { value: ItemType; label: string }[] = [
+  { value: "tracks", label: "Top Tracks" },
+  { value: "artists", label: "Top Artists" },
+  { value: "genres", label: "Top Genres" },
+];
+
 export const TIME_RANGES: { value: TimeRange; label: string }[] = [
-  { value: "short_term", label: "Last 4 weeks" },
-  { value: "medium_term", label: "Last 6 months" },
-  { value: "long_term", label: "All time" },
+  { value: "short_term", label: "Last Month" },
+  { value: "medium_term", label: "Last 6 Months" },
+  { value: "long_term", label: "All Time" },
 ];
 
 export const TIME_RANGE_LABELS: Record<TimeRange, string> = {
-  short_term: "Last 4 Weeks",
+  short_term: "Last Month",
   medium_term: "Last 6 Months",
   long_term: "All Time",
 };
+
+export const RECEIPT_FONTS: {
+  id: ReceiptFont;
+  label: string;
+  className: string;
+}[] = [
+  { id: "classic", label: "Classic", className: "font-receipt-classic" },
+  {
+    id: "international",
+    label: "Internationally Compatible",
+    className: "font-receipt-intl",
+  },
+];
 
 export const RECEIPT_THEMES: {
   id: ReceiptThemeId;

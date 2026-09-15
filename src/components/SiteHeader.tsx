@@ -16,15 +16,15 @@ export function SiteHeader({ showLogout = false }: { showLogout?: boolean }) {
   };
 
   return (
-    <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-5 sm:px-6">
-      <Link href={user ? "/dashboard" : "/"} className="group">
-        <span className="brand-mark text-2xl font-extrabold text-white transition group-hover:text-brand-200">
+    <header className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-3 py-4 sm:px-6 sm:py-5">
+      <Link href={user ? "/dashboard" : "/"} className="group min-w-0">
+        <span className="brand-mark text-xl font-extrabold text-white transition group-hover:text-brand-200 sm:text-2xl">
           Twinify
         </span>
       </Link>
-      <div className="flex items-center gap-3">
+      <div className="flex shrink-0 items-center gap-2 sm:gap-3">
         {user?.display_name ? (
-          <span className="hidden text-sm text-brand-200 sm:inline">
+          <span className="hidden max-w-[10rem] truncate text-sm text-brand-200 sm:inline">
             {user.display_name}
           </span>
         ) : null}
@@ -32,9 +32,9 @@ export function SiteHeader({ showLogout = false }: { showLogout?: boolean }) {
           <button
             type="button"
             onClick={logout}
-            className="rounded-lg border border-white/15 px-3 py-1.5 text-sm text-brand-100 hover:bg-white/5"
+            className="min-h-10 rounded-full border border-white/15 px-4 py-2 text-sm font-medium text-brand-100 hover:bg-white/5 active:scale-[0.98]"
           >
-            Log out
+            Log Out
           </button>
         ) : null}
       </div>

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Sans, IBM_Plex_Mono, Syne } from "next/font/google";
+import { DM_Sans, IBM_Plex_Mono, Share_Tech_Mono, Syne } from "next/font/google";
 import "./globals.css";
 
 const display = Syne({
@@ -14,10 +14,16 @@ const body = DM_Sans({
   weight: ["400", "500", "600", "700"],
 });
 
-const receipt = IBM_Plex_Mono({
-  variable: "--font-receipt",
+const receiptIntl = IBM_Plex_Mono({
+  variable: "--font-receipt-intl",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
+});
+
+const receiptClassic = Share_Tech_Mono({
+  variable: "--font-receipt-classic",
+  subsets: ["latin"],
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -29,13 +35,16 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: "#0f0618",
   colorScheme: "dark",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`${display.variable} ${body.variable} ${receipt.variable} h-full antialiased`}
+      className={`${display.variable} ${body.variable} ${receiptIntl.variable} ${receiptClassic.variable} h-full antialiased`}
       style={{ backgroundColor: "#0f0618" }}
     >
       <body

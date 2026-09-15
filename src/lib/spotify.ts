@@ -159,12 +159,33 @@ async function spotifyFetch<T>(
 
   if (!res.ok) {
     let message = `Spotify API error (${res.status})`;
-    try {
-      const err = (await res.json()) as { error?: { message?: string } };
-      if (err.error?.message) message = err.error.message;
-    } catch {
-      /* ignore */
+    const text = await res.text().catch(() => "");
+    if (text) {
+      try {
+        const err = JSON.parse(text) as {
+          error?: { message?: string } | string;
+        };
+        if (typeof err.error === "string" && err.error) {
+          message = err.error;
+        } else if (
+          err.error &&
+          typeof err.error === "object" &&
+          err.error.message
+        ) {
+          message = err.error.message;
+        } else {
+          message = text.slice(0, 200);
+        }
+      } catch {
+        message = text.slice(0, 200);
+      }
     }
+
+    if (res.status === 403 && /^forbidden$/i.test(message.trim())) {
+      message =
+        "Spotify returned Forbidden. Try logging out and back in, then create the playlist again.";
+    }
+
     return { status: res.status, error: message };
   }
 
@@ -193,30 +214,27 @@ export async function getTopArtists(timeRange: TimeRange, limit: number) {
 }
 
 export async function createPlaylist(input: {
-  userId: string;
   name: string;
   description: string;
   isPublic: boolean;
   trackUris: string[];
 }) {
-  const created = await spotifyFetch<CreatedPlaylist>(
-    `/users/${encodeURIComponent(input.userId)}/playlists`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        name: input.name,
-        description: input.description,
-        public: input.isPublic,
-      }),
-    },
-  );
+  const created = await spotifyFetch<CreatedPlaylist>("/me/playlists", {
+    method: "POST",
+    body: JSON.stringify({
+      name: input.name,
+      description: input.description,
+      public: input.isPublic,
+    }),
+  });
 
   if (!created.data) {
     return created;
   }
 
   if (input.trackUris.length > 0) {
-    const added = await spotifyFetch(`/playlists/${created.data.id}/tracks`, {
+    // Spotify Feb 2026: /tracks renamed to /items
+    const added = await spotifyFetch(`/playlists/${created.data.id}/items`, {
       method: "POST",
       body: JSON.stringify({ uris: input.trackUris }),
     });
