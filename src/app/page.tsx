@@ -22,7 +22,7 @@ function LandingContent() {
   return (
     <div className="flex min-h-dvh flex-col">
       <SiteHeader />
-      <main className="relative mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center px-4 pb-16 pt-6 sm:px-6 sm:pb-20">
+      <main className="relative mx-auto flex w-full max-w-3xl flex-1 flex-col items-center justify-center px-4 pb-6 pt-6 sm:px-6 sm:pb-8">
         <div
           className="glow-orb pointer-events-none absolute left-1/2 top-8 h-56 w-56 -translate-x-1/2 rounded-full bg-brand-600/35 blur-3xl sm:h-72 sm:w-72"
           aria-hidden
@@ -39,8 +39,10 @@ function LandingContent() {
               alt=""
               width={280}
               height={140}
-              className="h-16 w-auto sm:h-20 md:h-24"
+              className="no-drag h-16 w-auto sm:h-20 md:h-24"
               priority
+              draggable={false}
+              onDragStart={(e) => e.preventDefault()}
               aria-hidden
             />
             <span className="brand-mark text-5xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl">
@@ -81,7 +83,7 @@ function LandingContent() {
             <li>Export a shareable receipt image</li>
           </ul>
 
-          <aside className="mt-14 w-full max-w-md border-t border-white/10 pt-8">
+          <aside className="mt-8 w-full max-w-md border-t border-white/10 pt-5">
             <p className="text-xs font-medium uppercase tracking-[0.18em] text-brand-300">
               About
             </p>
@@ -105,7 +107,7 @@ function LandingContent() {
         </section>
       </main>
 
-      <footer className="border-t border-white/5 px-4 py-6 text-center text-xs text-brand-300/60">
+      <footer className="border-t border-white/5 px-4 py-4 text-center text-xs text-brand-300/60">
         Twinify is not affiliated with Spotify. Requires a Spotify account.
       </footer>
     </div>

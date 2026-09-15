@@ -75,6 +75,20 @@ body {
   letter-spacing: -0.03em;
 }
 
+/* Prevent dragging / selecting brand assets */
+.no-drag,
+.no-drag img {
+  -webkit-user-drag: none;
+  user-select: none;
+  -webkit-user-select: none;
+  pointer-events: auto;
+}
+
+img.no-drag {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
 .font-receipt-classic {
   font-family: var(--font-receipt-classic), ui-monospace, monospace;
 }

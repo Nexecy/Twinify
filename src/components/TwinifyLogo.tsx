@@ -28,9 +28,11 @@ export function TwinifyLogo({
         alt=""
         width={size * 2}
         height={size}
-        className="h-auto w-auto"
+        className="no-drag h-auto w-auto"
         style={{ height: size, width: "auto" }}
         priority={priority}
+        draggable={false}
+        onDragStart={(e) => e.preventDefault()}
         aria-hidden
       />
       {withWordmark ? (
