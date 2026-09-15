@@ -30,6 +30,15 @@ export const metadata: Metadata = {
   title: "Twinify - Your Spotify Receipt",
   description:
     "View your top Spotify tracks and artists as a printable receipt, then turn them into a real playlist.",
+  icons: {
+    icon: [
+      { url: "/brand/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/brand/favicon-16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+  },
+  manifest: "/site.webmanifest",
 };
 
 export const viewport: Viewport = {

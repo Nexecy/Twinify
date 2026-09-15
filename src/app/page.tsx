@@ -1,6 +1,7 @@
 "use client";
 
 import { useSearchParams } from "next/navigation";
+import Image from "next/image";
 import { Suspense } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 
@@ -32,13 +33,24 @@ function LandingContent() {
         />
 
         <section className="relative flex w-full flex-col items-center text-center">
-          <h1 className="brand-mark animate-fade-up text-5xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl">
-            Twinify
+          <h1 className="animate-fade-up flex flex-col items-center gap-4">
+            <Image
+              src="/brand/twinify-logo-white.png"
+              alt=""
+              width={280}
+              height={140}
+              className="h-16 w-auto sm:h-20 md:h-24"
+              priority
+              aria-hidden
+            />
+            <span className="brand-mark text-5xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl">
+              Twinify
+            </span>
           </h1>
           <p className="animate-fade-up-delay mx-auto mt-4 max-w-md text-base leading-relaxed text-brand-100/85 sm:mt-5 sm:text-lg md:text-xl">
-              Your Spotify taste, printed as a receipt, then turned into a real
-              playlist in one tap.
-            </p>
+            Your Spotify taste, printed as a receipt, then turned into a real
+            playlist in one tap.
+          </p>
 
           {errorMessage ? (
             <p

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { TwinifyLogo } from "@/components/TwinifyLogo";
 import { useTwinifyStore } from "@/store/twinify-store";
 
 export function SiteHeader({ showLogout = false }: { showLogout?: boolean }) {
@@ -18,9 +19,11 @@ export function SiteHeader({ showLogout = false }: { showLogout?: boolean }) {
   return (
     <header className="mx-auto flex w-full max-w-6xl items-center justify-between gap-3 px-3 py-4 sm:px-6 sm:py-5">
       <Link href={user ? "/dashboard" : "/"} className="group min-w-0">
-        <span className="brand-mark text-xl font-extrabold text-white transition group-hover:text-brand-200 sm:text-2xl">
-          Twinify
-        </span>
+        <TwinifyLogo
+          variant="white"
+          size={28}
+          className="transition opacity-100 group-hover:opacity-90"
+        />
       </Link>
       <div className="flex shrink-0 items-center gap-2 sm:gap-3">
         {user?.display_name ? (

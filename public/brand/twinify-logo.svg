@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120" fill="none" aria-hidden="true">
+  <!-- Twinify infinity vinyl logo (currentColor) -->
+  <g stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Outer infinity path -->
+    <path d="M60 20
+      C98 20 108 48 120 60
+      C132 72 142 100 180 100
+      C212 100 220 78 220 60
+      C220 42 212 20 180 20
+      C142 20 132 48 120 60
+      C108 72 98 100 60 100
+      C28 100 20 78 20 60
+      C20 42 28 20 60 20 Z"/>
+  </g>
+  <!-- Left record grooves -->
+  <g stroke="currentColor" stroke-width="3.2" fill="none" stroke-linecap="round">
+    <path d="M42 48 C48 36 72 36 78 48"/>
+    <path d="M38 56 C46 40 74 40 82 56"/>
+    <path d="M36 64 C46 44 74 44 84 64"/>
+    <path d="M38 72 C48 52 72 52 82 72"/>
+  </g>
+  <!-- Right record grooves -->
+  <g stroke="currentColor" stroke-width="3.2" fill="none" stroke-linecap="round">
+    <path d="M162 48 C168 36 192 36 198 48"/>
+    <path d="M158 56 C166 40 194 40 202 56"/>
+    <path d="M156 64 C166 44 194 44 204 64"/>
+    <path d="M158 72 C168 52 192 52 202 72"/>
+  </g>
+  <!-- Spindle hubs -->
+  <circle cx="60" cy="60" r="7" fill="currentColor"/>
+  <circle cx="180" cy="60" r="7" fill="currentColor"/>
+  <!-- Center tape bridge accents -->
+  <g stroke="currentColor" stroke-width="3" stroke-linecap="round">
+    <path d="M108 52 L132 68"/>
+    <path d="M104 58 L128 74"/>
+    <path d="M112 46 L136 62"/>
+  </g>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 120" fill="none" aria-hidden="true">
+  <!-- Lightweight currentColor mark for inline UI use -->
+  <g fill="none" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M62 22c34 0 46 24 58 38 12 14 24 38 58 38s54-18 54-38-18-38-54-38-46 24-58 38C108 84 96 108 62 108S8 90 8 60s18-38 54-38z"/>
+  </g>
+  <g fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round">
+    <path d="M40 48c8-14 36-14 44 0"/><path d="M36 58c10-18 42-18 52 0"/><path d="M36 70c10-18 42-18 52 0"/><path d="M40 80c8-14 36-14 44 0"/>
+    <path d="M156 48c8-14 36-14 44 0"/><path d="M152 58c10-18 42-18 52 0"/><path d="M152 70c10-18 42-18 52 0"/><path d="M156 80c8-14 36-14 44 0"/>
+  </g>
+  <circle cx="62" cy="60" r="6.5" fill="currentColor"/>
+  <circle cx="178" cy="60" r="6.5" fill="currentColor"/>
+  <g stroke="currentColor" stroke-width="2.8" stroke-linecap="round">
+    <path d="M108 50l28 20"/><path d="M104 56l28 20"/><path d="M112 44l28 20"/>
+  </g>
+</svg>
