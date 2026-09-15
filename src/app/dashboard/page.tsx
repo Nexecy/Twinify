@@ -227,12 +227,9 @@ export default function DashboardPage() {
     <div className="flex min-h-dvh flex-col pb-28 lg:pb-8">
       <SiteHeader showLogout />
       <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col px-3 py-4 sm:px-6 sm:py-8">
-        {/* Mobile: receipt first for instant preview */}
-        <div className="mb-6 lg:hidden">{receiptPanel}</div>
-
         <div className="flex w-full flex-col gap-6 lg:flex-row lg:items-start lg:justify-center lg:gap-10">
-          {/* Desktop: receipt on the left like Receiptify */}
-          <aside className="hidden w-full max-w-[360px] shrink-0 lg:sticky lg:top-6 lg:block">
+          {/* Receipt: top on mobile, sticky left column on desktop */}
+          <aside className="w-full lg:max-w-[360px] lg:shrink-0 lg:sticky lg:top-6">
             {receiptPanel}
           </aside>
 

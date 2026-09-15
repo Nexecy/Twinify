@@ -12,13 +12,12 @@ interface PlaylistModalProps {
   trackUris: string[];
 }
 
-export function PlaylistModal({
-  open,
+function PlaylistModalInner({
   onClose,
   defaultName,
   defaultDescription,
   trackUris,
-}: PlaylistModalProps) {
+}: Omit<PlaylistModalProps, "open">) {
   const titleId = useId();
   const [name, setName] = useState(defaultName);
   const [description, setDescription] = useState(defaultDescription);
@@ -28,23 +27,12 @@ export function PlaylistModal({
   const [playlist, setPlaylist] = useState<CreatedPlaylist | null>(null);
 
   useEffect(() => {
-    if (open) {
-      setName(defaultName);
-      setDescription(defaultDescription);
-      setError(null);
-      setPlaylist(null);
-      setSubmitting(false);
-    }
-  }, [open, defaultName, defaultDescription]);
-
-  useEffect(() => {
-    if (!open) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") onClose();
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
+  }, [onClose]);
 
   const create = useCallback(async () => {
     setSubmitting(true);
@@ -71,8 +59,6 @@ export function PlaylistModal({
       setSubmitting(false);
     }
   }, [name, description, isPublic, trackUris]);
-
-  if (!open) return null;
 
   return (
     <div
@@ -189,6 +175,11 @@ export function PlaylistModal({
       </div>
     </div>
   );
+}
+
+export function PlaylistModal({ open, ...props }: PlaylistModalProps) {
+  if (!open) return null;
+  return <PlaylistModalInner {...props} />;
 }
 
 export function buildPlaylistDefaults(count: number, timeRange: TimeRange) {
