@@ -116,7 +116,7 @@ export function DashboardControls() {
         columns={3}
       />
 
-      {itemType !== "stats" ? (
+      {itemType !== "stats" && itemType !== "genres" ? (
         <Segmented<ItemCount>
           label="Length"
           value={count}

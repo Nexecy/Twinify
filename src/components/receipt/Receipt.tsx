@@ -41,7 +41,7 @@ export function tracksToReceiptItems(tracks: SpotifyTrack[]): ReceiptItem[] {
   return tracks.map((track, index) => ({
     id: track.id,
     rank: index + 1,
-    title: track.name,
+    title: track.name.toUpperCase(),
     subtitle: track.artists.map((a) => a.name).join(", "),
     amount: formatDuration(track.duration_ms),
     amountValue: track.duration_ms,
@@ -52,39 +52,61 @@ export function tracksToReceiptItems(tracks: SpotifyTrack[]): ReceiptItem[] {
 export function artistsToReceiptItems(
   artists: SpotifyArtist[],
 ): ReceiptItem[] {
-  return artists.map((artist, index) => ({
-    id: artist.id,
-    rank: index + 1,
-    title: artist.name,
-    subtitle: artist.genres?.slice(0, 2).join(" · ") || "Artist",
-    amount: String(artist.popularity ?? 0),
-    amountValue: artist.popularity ?? 0,
-    imageUrl: artist.images?.[2]?.url ?? artist.images?.[0]?.url,
-  }));
+  return artists.map((artist, index) => {
+    const popularity =
+      typeof artist.popularity === "number" && !isNaN(artist.popularity)
+        ? Math.round(artist.popularity)
+        : 50;
+    return {
+      id: artist.id,
+      rank: index + 1,
+      title: artist.name.toUpperCase(),
+      subtitle: "",
+      amount: String(popularity),
+      amountValue: popularity,
+      imageUrl: artist.images?.[2]?.url ?? artist.images?.[0]?.url,
+    };
+  });
 }
 
 export function genresToReceiptItems(
   artists: SpotifyArtist[],
-  limit: number,
+  limit: number = 10,
 ): ReceiptItem[] {
+  const artistsWithGenres = artists.filter(
+    (a) => a.genres && a.genres.length > 0,
+  );
+  if (artistsWithGenres.length === 0) return [];
+
   const counts = new Map<string, number>();
-  for (const artist of artists) {
+  const totalArtists = artistsWithGenres.length;
+
+  for (const artist of artistsWithGenres) {
+    const seen = new Set<string>();
     for (const genre of artist.genres ?? []) {
-      counts.set(genre, (counts.get(genre) ?? 0) + 1);
+      const clean = genre.trim().toLowerCase();
+      if (clean && !seen.has(clean)) {
+        seen.add(clean);
+        counts.set(clean, (counts.get(clean) ?? 0) + 1);
+      }
     }
   }
 
   return [...counts.entries()]
     .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
     .slice(0, limit)
-    .map(([genre, count], index) => ({
-      id: genre,
-      rank: index + 1,
-      title: genre,
-      subtitle: count === 1 ? "1 artist" : `${count} artists`,
-      amount: String(count),
-      amountValue: count,
-    }));
+    .map(([genre, count], index) => {
+      const pct = (count / totalArtists) * 100;
+      const pctFormatted = pct.toFixed(2);
+      return {
+        id: `genre-${index}-${encodeURIComponent(genre)}`,
+        rank: index + 1,
+        title: genre.toUpperCase(),
+        subtitle: `${count} of ${totalArtists} artists`,
+        amount: `${pctFormatted}%`,
+        amountValue: Number(pctFormatted),
+      };
+    });
 }
 
 function Barcode() {
@@ -125,9 +147,11 @@ export function Receipt({
   const totalLabel =
     itemType === "tracks"
       ? formatDuration(items.reduce((sum, i) => sum + i.amountValue, 0))
-      : itemType === "stats"
-        ? items.reduce((sum, i) => sum + i.amountValue, 0).toFixed(2)
-        : String(items.reduce((sum, i) => sum + i.amountValue, 0));
+      : itemType === "genres"
+        ? `${items.reduce((sum, i) => sum + i.amountValue, 0).toFixed(2)}%`
+        : itemType === "stats"
+          ? items.reduce((sum, i) => sum + i.amountValue, 0).toFixed(2)
+          : String(items.reduce((sum, i) => sum + i.amountValue, 0));
 
   const fontClass =
     font === "classic" ? "font-receipt-classic" : "font-receipt-intl";
@@ -187,7 +211,7 @@ export function Receipt({
                 <p className="truncate text-[11px] font-medium leading-snug tracking-[0.01em]">
                   {item.title}
                 </p>
-                {itemType !== "genres" && itemType !== "stats" ? (
+                {itemType === "tracks" && item.subtitle ? (
                   <p
                     className="truncate text-[9px] leading-snug tracking-[0.01em]"
                     style={{ color: "var(--r-muted)" }}

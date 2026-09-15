@@ -80,7 +80,7 @@ export default function DashboardPage() {
     setLoading(true);
     setError(null);
     try {
-      const limit = itemType === "stats" ? 8 : count;
+      const limit = itemType === "stats" ? 8 : itemType === "genres" ? 10 : count;
       const params = new URLSearchParams({
         type: itemType,
         time_range: timeRange,
@@ -137,12 +137,19 @@ export default function DashboardPage() {
     if (itemType === "tracks") return tracksToReceiptItems(tracks);
     if (itemType === "artists") return artistsToReceiptItems(artists);
     if (itemType === "genres") {
-      if (customItems.length > 0) return customItems.slice(0, count);
-      return genresToReceiptItems(artists, count);
+      if (customItems.length > 0 && customItems[0]?.id?.startsWith("genre-")) {
+        return customItems;
+      }
+      return genresToReceiptItems(artists, 10);
     }
-    if (itemType === "stats") return customItems;
+    if (itemType === "stats") {
+      if (customItems.length > 0 && customItems[0]?.id?.startsWith("stat-")) {
+        return customItems;
+      }
+      return [];
+    }
     return [];
-  }, [itemType, tracks, artists, count, customItems]);
+  }, [itemType, tracks, artists, customItems]);
 
   const playlistDefaults = useMemo(
     () => buildPlaylistDefaults(count, timeRange),

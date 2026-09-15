@@ -62,7 +62,7 @@ function PlaylistModalInner({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/60 p-4 sm:items-center"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm"
       role="dialog"
       aria-modal="true"
       aria-labelledby={titleId}
@@ -70,7 +70,7 @@ function PlaylistModalInner({
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="w-full max-w-md animate-fade-up rounded-2xl border border-white/10 bg-[#1a0b2e] p-6 shadow-2xl shadow-brand-900/50">
+      <div className="my-auto max-h-[92dvh] w-full max-w-md overflow-y-auto animate-fade-up rounded-2xl border border-white/10 bg-[#1a0b2e] p-6 shadow-2xl shadow-brand-900/50">
         {playlist ? (
           <div className="space-y-4 text-center">
             <p className="text-sm uppercase tracking-[0.2em] text-brand-300">
