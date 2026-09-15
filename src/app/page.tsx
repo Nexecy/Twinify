@@ -2,7 +2,7 @@
 
 import { useSearchParams } from "next/navigation";
 import Image from "next/image";
-import { Suspense } from "react";
+import { Suspense, useState, useRef, useEffect } from "react";
 import { SiteHeader } from "@/components/SiteHeader";
 
 const ERROR_MESSAGES: Record<string, string> = {
@@ -18,6 +18,66 @@ function LandingContent() {
   const errorMessage = errorKey
     ? (ERROR_MESSAGES[errorKey] ?? `Login error: ${errorKey}`)
     : null;
+
+  const [monPopped, setMonPopped] = useState(false);
+  const [nexecyPopped, setNexecyPopped] = useState(false);
+  const monTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const nexecyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (monTimerRef.current) clearTimeout(monTimerRef.current);
+      if (nexecyTimerRef.current) clearTimeout(nexecyTimerRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!monPopped && !nexecyPopped) return;
+    const handleDismiss = () => {
+      setMonPopped(false);
+      setNexecyPopped(false);
+    };
+    window.addEventListener("click", handleDismiss);
+    return () => window.removeEventListener("click", handleDismiss);
+  }, [monPopped, nexecyPopped]);
+
+  const triggerMonPop = (e?: React.SyntheticEvent) => {
+    if (e) e.stopPropagation();
+    if (monTimerRef.current) clearTimeout(monTimerRef.current);
+    setMonPopped(false);
+    requestAnimationFrame(() => {
+      setMonPopped(true);
+      monTimerRef.current = setTimeout(() => {
+        setMonPopped(false);
+      }, 2500);
+    });
+  };
+
+  const handleNexecyClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.stopPropagation();
+    const hasHover =
+      typeof window !== "undefined" &&
+      window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+    // On touch/mobile screens: first tap triggers sticker popup;
+    // a second tap while popped follows the GitHub link.
+    if (!hasHover) {
+      if (!nexecyPopped) {
+        e.preventDefault();
+        if (nexecyTimerRef.current) clearTimeout(nexecyTimerRef.current);
+        setNexecyPopped(false);
+        requestAnimationFrame(() => {
+          setNexecyPopped(true);
+          nexecyTimerRef.current = setTimeout(() => {
+            setNexecyPopped(false);
+          }, 2600);
+        });
+      } else {
+        // Second tap opens GitHub; reset sticker
+        setNexecyPopped(false);
+      }
+    }
+  };
 
   return (
     <div className="flex min-h-dvh flex-col">
@@ -89,7 +149,21 @@ function LandingContent() {
             </p>
             <p className="mt-3 text-sm leading-relaxed text-brand-100/85 sm:text-base">
               Named by{" "}
-              <span className="mon-heart inline-block cursor-pointer rounded-md bg-brand-100/40 px-1.5 py-0.5 font-semibold text-brand-200 shadow-sm transition hover:bg-brand-100/55">
+              <span
+                role="button"
+                tabIndex={0}
+                onClick={triggerMonPop}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    triggerMonPop(e);
+                  }
+                }}
+                aria-label="Mon (tap to see white Toothless)"
+                className={`mon-heart inline-block cursor-pointer rounded-md bg-brand-100/40 px-1.5 py-0.5 font-semibold text-brand-200 shadow-sm transition hover:bg-brand-100/55 ${
+                  monPopped ? "is-popped" : ""
+                }`}
+              >
                 Mon
               </span>
               , styled in her favorite purple, and built with love by{" "}
@@ -97,9 +171,22 @@ function LandingContent() {
                 href="https://github.com/Nexecy"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="nexecy-toothless inline-block rounded-md bg-black/40 px-1.5 py-0.5 font-semibold text-white shadow-sm transition hover:bg-black/55"
+                onClick={handleNexecyClick}
+                title={
+                  nexecyPopped
+                    ? "Tap again to open GitHub"
+                    : "Tap for Toothless sticker, tap again for GitHub"
+                }
+                className={`nexecy-toothless inline-block rounded-md bg-black/40 px-1.5 py-0.5 font-semibold text-white shadow-sm transition hover:bg-black/55 ${
+                  nexecyPopped ? "is-popped" : ""
+                }`}
               >
                 Nexecy
+                {nexecyPopped && (
+                  <span className="ml-0.5 inline-block text-[10px] text-white/70 sm:hidden">
+                    ↗
+                  </span>
+                )}
               </a>
               .
             </p>

@@ -230,7 +230,7 @@ export function Receipt({
             className="text-center text-[9px] tracking-[0.22em]"
             style={{ color: "var(--r-muted)" }}
           >
-            twynify-app.vercel.app
+            twynify.vercel.app
           </p>
         </footer>
       </div>

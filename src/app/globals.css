@@ -89,55 +89,54 @@ img.no-drag {
   user-select: none;
 }
 
-/* Mon hover — white Toothless + purple heart (desktop/fine pointer only) */
+/* Mon — white Toothless + purple heart */
 .mon-heart {
   position: relative;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
-.mon-heart::before,
+.mon-heart::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 0.2rem);
+  width: 1.85rem;
+  height: 1.85rem;
+  margin-left: -1.85rem;
+  background: url("/brand/toothless-sticker-white.svg") center / contain no-repeat;
+  opacity: 0;
+  transform: translateY(6px) scale(0.7);
+  pointer-events: none;
+  filter: drop-shadow(0 0 8px rgba(196, 181, 253, 0.45));
+  transition:
+    opacity 180ms ease,
+    transform 220ms ease;
+  z-index: 20;
+}
+
 .mon-heart::after {
-  content: none;
+  content: "♥";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 0.35rem);
+  margin-left: 0.15rem;
+  width: 1em;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1;
+  color: #c4b5fd;
+  opacity: 0;
+  transform: translateY(6px) scale(0.7);
+  pointer-events: none;
+  transition:
+    opacity 180ms ease,
+    transform 220ms ease;
+  text-shadow: 0 0 10px rgba(196, 181, 253, 0.55);
+  z-index: 20;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .mon-heart::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: calc(100% + 0.2rem);
-    width: 1.85rem;
-    height: 1.85rem;
-    margin-left: -1.85rem;
-    background: url("/brand/toothless-sticker-white.svg") center / contain no-repeat;
-    opacity: 0;
-    transform: translateY(6px) scale(0.7);
-    pointer-events: none;
-    filter: drop-shadow(0 0 8px rgba(196, 181, 253, 0.45));
-    transition:
-      opacity 180ms ease,
-      transform 220ms ease;
-  }
-
-  .mon-heart::after {
-    content: "♥";
-    position: absolute;
-    left: 50%;
-    bottom: calc(100% + 0.35rem);
-    margin-left: 0.15rem;
-    width: 1em;
-    text-align: center;
-    font-size: 0.95rem;
-    line-height: 1;
-    color: #c4b5fd;
-    opacity: 0;
-    transform: translateY(6px) scale(0.7);
-    pointer-events: none;
-    transition:
-      opacity 180ms ease,
-      transform 220ms ease;
-    text-shadow: 0 0 10px rgba(196, 181, 253, 0.55);
-  }
-
   .mon-heart:hover::before {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -149,6 +148,18 @@ img.no-drag {
     transform: translateY(0) scale(1);
     animation: mon-heart-pop 700ms ease 60ms both;
   }
+}
+
+.mon-heart.is-popped::before {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: mon-toothless-pop 700ms ease;
+}
+
+.mon-heart.is-popped::after {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: mon-heart-pop 700ms ease 60ms both;
 }
 
 @keyframes mon-toothless-pop {
@@ -175,55 +186,54 @@ img.no-drag {
   }
 }
 
-/* Nexecy hover — Toothless + white heart (desktop/fine pointer only) */
+/* Nexecy — Toothless + white heart */
 .nexecy-toothless {
   position: relative;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
 }
 
-.nexecy-toothless::before,
+.nexecy-toothless::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 0.2rem);
+  width: 1.85rem;
+  height: 1.85rem;
+  margin-left: -1.85rem;
+  background: url("/brand/toothless-sticker.svg") center / contain no-repeat;
+  opacity: 0;
+  transform: translateY(6px) scale(0.7);
+  pointer-events: none;
+  filter: drop-shadow(0 0 8px rgba(159, 232, 112, 0.35));
+  transition:
+    opacity 180ms ease,
+    transform 220ms ease;
+  z-index: 20;
+}
+
 .nexecy-toothless::after {
-  content: none;
+  content: "♥";
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 0.35rem);
+  margin-left: 0.15rem;
+  width: 1em;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1;
+  color: #f5f5f5;
+  opacity: 0;
+  transform: translateY(6px) scale(0.7);
+  pointer-events: none;
+  transition:
+    opacity 180ms ease,
+    transform 220ms ease;
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.45);
+  z-index: 20;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .nexecy-toothless::before {
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: calc(100% + 0.2rem);
-    width: 1.85rem;
-    height: 1.85rem;
-    margin-left: -1.85rem;
-    background: url("/brand/toothless-sticker.svg") center / contain no-repeat;
-    opacity: 0;
-    transform: translateY(6px) scale(0.7);
-    pointer-events: none;
-    filter: drop-shadow(0 0 8px rgba(159, 232, 112, 0.35));
-    transition:
-      opacity 180ms ease,
-      transform 220ms ease;
-  }
-
-  .nexecy-toothless::after {
-    content: "♥";
-    position: absolute;
-    left: 50%;
-    bottom: calc(100% + 0.35rem);
-    margin-left: 0.15rem;
-    width: 1em;
-    text-align: center;
-    font-size: 0.95rem;
-    line-height: 1;
-    color: #f5f5f5;
-    opacity: 0;
-    transform: translateY(6px) scale(0.7);
-    pointer-events: none;
-    transition:
-      opacity 180ms ease,
-      transform 220ms ease;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.45);
-  }
-
   .nexecy-toothless:hover::before {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -235,6 +245,18 @@ img.no-drag {
     transform: translateY(0) scale(1);
     animation: nexecy-heart-pop 700ms ease 60ms both;
   }
+}
+
+.nexecy-toothless.is-popped::before {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: nexecy-toothless-pop 700ms ease;
+}
+
+.nexecy-toothless.is-popped::after {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  animation: nexecy-heart-pop 700ms ease 60ms both;
 }
 
 @keyframes nexecy-toothless-pop {
