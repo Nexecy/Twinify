@@ -44,10 +44,10 @@ export const RECEIPT_FONTS: {
   label: string;
   className: string;
 }[] = [
-  { id: "classic", label: "Classic", className: "font-receipt-classic" },
+  { id: "classic", label: "Thermal", className: "font-receipt-classic" },
   {
     id: "international",
-    label: "Internationally Compatible",
+    label: "Clear Type",
     className: "font-receipt-intl",
   },
 ];

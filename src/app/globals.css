@@ -80,130 +80,218 @@ body {
 }
 
 .font-receipt-intl {
-  font-family: var(--font-receipt-intl), ui-monospace, monospace;
+  font-family: var(--font-receipt-intl), "Courier New", ui-monospace, monospace;
 }
 
-/* Receipt theme CSS variables - scoped to .receipt[data-theme] */
+/* Preview stage: dark slate flat-lay */
+.receipt-stage {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 1.75rem 1rem 2.25rem;
+  border-radius: 1rem;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 20%, rgba(255, 255, 255, 0.04), transparent 55%),
+    linear-gradient(180deg, #2a3038 0%, #1a1e24 45%, #14181d 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+@media (min-width: 640px) {
+  .receipt-stage {
+    padding: 2.5rem 1.5rem 3rem;
+  }
+}
+
+/* Thermal paper receipt mockup */
 .receipt {
-  --r-bg: #f7f4ec;
-  --r-fg: #1a1a1a;
-  --r-muted: #555;
-  --r-line: #1a1a1a;
-  --r-accent: #1a1a1a;
-  --r-perforation: #cfc9b8;
-  background: var(--r-bg);
-  color: var(--r-fg);
+  --r-bg: #f3eee4;
+  --r-fg: #1c1915;
+  --r-muted: #5c564c;
+  --r-line: #2a2620;
+  --r-accent: #1c1915;
+  --r-perforation: #d9d2c4;
   position: relative;
   width: 100%;
-  max-width: min(340px, 100%);
+  max-width: min(320px, 100%);
   margin-inline: auto;
-  padding: 1.5rem 1rem 1.75rem;
+  padding: 1.6rem 1.15rem 1.85rem;
+  color: var(--r-fg);
+  background-color: var(--r-bg);
+  background-image:
+    /* soft vertical roll shading */
+    linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.045) 0%,
+      transparent 8%,
+      transparent 92%,
+      rgba(0, 0, 0, 0.04) 100%
+    ),
+    /* faint crinkle highlights */
+    linear-gradient(
+      168deg,
+      rgba(255, 255, 255, 0.28) 0%,
+      transparent 18%,
+      transparent 62%,
+      rgba(0, 0, 0, 0.035) 100%
+    ),
+    /* paper grain */
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(80, 60, 30, 0.018) 2px,
+      rgba(80, 60, 30, 0.018) 3px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 3px,
+      rgba(60, 45, 20, 0.012) 3px,
+      rgba(60, 45, 20, 0.012) 4px
+    );
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  transform: rotate(-0.35deg);
+  filter: contrast(1.02);
   box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.35),
-    0 2px 0 rgba(255, 255, 255, 0.08) inset;
+    0 1px 0 rgba(255, 255, 255, 0.55) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.06) inset,
+    0 22px 40px rgba(0, 0, 0, 0.45),
+    0 4px 10px rgba(0, 0, 0, 0.25);
 }
 
 @media (min-width: 640px) {
   .receipt {
-    padding: 1.75rem 1.25rem 2rem;
+    padding: 1.85rem 1.35rem 2.1rem;
   }
 }
 
+/* Soft fold / crinkle overlays */
+.receipt-crinkle {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    linear-gradient(
+      112deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.16) 28%,
+      transparent 34%,
+      transparent 58%,
+      rgba(0, 0, 0, 0.04) 66%,
+      transparent 72%
+    ),
+    linear-gradient(
+      205deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.1) 48%,
+      transparent 55%
+    );
+  mix-blend-mode: soft-light;
+}
+
+.receipt-body {
+  position: relative;
+  z-index: 2;
+}
+
 .receipt[data-theme="classic"] {
-  --r-bg: #f7f4ec;
-  --r-fg: #1a1a1a;
-  --r-muted: #555;
-  --r-line: #1a1a1a;
-  --r-accent: #1a1a1a;
-  --r-perforation: #cfc9b8;
+  --r-bg: #f3eee4;
+  --r-fg: #1c1915;
+  --r-muted: #5c564c;
+  --r-line: #2a2620;
+  --r-accent: #1c1915;
+  --r-perforation: #d9d2c4;
 }
 
 .receipt[data-theme="purple"] {
-  --r-bg: #1e1033;
-  --r-fg: #f3e8ff;
-  --r-muted: #c4b5fd;
-  --r-line: #a78bfa;
-  --r-accent: #c4b5fd;
-  --r-perforation: #5b21b6;
+  --r-bg: #efe8fb;
+  --r-fg: #2a1848;
+  --r-muted: #6b528f;
+  --r-line: #5b21b6;
+  --r-accent: #4c1d95;
+  --r-perforation: #d4c4ef;
 }
 
 .receipt[data-theme="neon"] {
-  --r-bg: #0d0221;
+  --r-bg: #1a0a24;
   --r-fg: #f0abfc;
   --r-muted: #67e8f9;
   --r-line: #ff00aa;
   --r-accent: #22d3ee;
-  --r-perforation: #4a044e;
+  --r-perforation: #3b0a4a;
   box-shadow:
-    0 0 24px rgba(255, 0, 170, 0.35),
-    0 18px 40px rgba(0, 0, 0, 0.5);
+    0 0 28px rgba(255, 0, 170, 0.28),
+    0 22px 40px rgba(0, 0, 0, 0.55);
 }
 
 .receipt[data-theme="pastel"] {
-  --r-bg: #fff5f7;
+  --r-bg: #fff4f7;
   --r-fg: #5b3a4a;
   --r-muted: #9a7a88;
-  --r-line: #f9a8d4;
-  --r-accent: #c084fc;
-  --r-perforation: #fbcfe8;
+  --r-line: #e8a0c0;
+  --r-accent: #a78bfa;
+  --r-perforation: #f5d0dc;
 }
 
 .receipt[data-theme="dark"] {
-  --r-bg: #121212;
-  --r-fg: #e8e8e8;
+  --r-bg: #1c1c1e;
+  --r-fg: #ececec;
   --r-muted: #9ca3af;
-  --r-line: #3f3f46;
-  --r-accent: #a1a1aa;
-  --r-perforation: #27272a;
+  --r-line: #4b4b50;
+  --r-accent: #d4d4d8;
+  --r-perforation: #2a2a2e;
 }
 
 .receipt[data-theme="vinyl"] {
-  --r-bg: #2a2118;
-  --r-fg: #f0e6d2;
-  --r-muted: #c4a574;
-  --r-line: #c4a574;
-  --r-accent: #e8c39e;
-  --r-perforation: #4a3b2a;
+  --r-bg: #efe4d2;
+  --r-fg: #2a2118;
+  --r-muted: #7a6548;
+  --r-line: #8b7355;
+  --r-accent: #5c4a32;
+  --r-perforation: #d9c9b0;
 }
 
+/* Micro-perforated tear edges */
 .receipt::before,
 .receipt::after {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
-  height: 10px;
+  height: 12px;
   background:
-    linear-gradient(45deg, transparent 33.333%, var(--r-bg) 33.333%, var(--r-bg) 66.667%, transparent 66.667%),
-    linear-gradient(-45deg, transparent 33.333%, var(--r-bg) 33.333%, var(--r-bg) 66.667%, transparent 66.667%);
-  background-size: 12px 20px;
-  background-position: 0 -10px;
-  background-repeat: repeat-x;
+    radial-gradient(circle at 6px 0, transparent 5.5px, var(--r-bg) 5.7px) 0 0 / 12px 12px repeat-x;
   pointer-events: none;
+  z-index: 3;
 }
 
 .receipt::before {
-  top: -10px;
+  top: -11px;
+  filter: drop-shadow(0 -1px 0 rgba(0, 0, 0, 0.08));
 }
 
 .receipt::after {
-  bottom: -10px;
-  transform: rotate(180deg);
+  bottom: -11px;
+  transform: scaleY(-1);
+  filter: drop-shadow(0 -1px 0 rgba(0, 0, 0, 0.08));
 }
 
 .receipt-dashed {
   border: none;
-  border-top: 1.5px dashed var(--r-line);
-  margin: 0.75rem 0;
-  opacity: 0.7;
+  border-top: 1px dashed color-mix(in srgb, var(--r-line) 70%, transparent);
+  margin: 0.85rem 0;
 }
 
 .receipt-barcode {
   display: flex;
   justify-content: center;
-  gap: 2px;
-  height: 36px;
-  margin-top: 0.75rem;
+  align-items: flex-end;
+  gap: 1.5px;
+  height: 40px;
+  margin-top: 0.85rem;
 }
 
 .receipt-barcode span {
@@ -211,11 +299,12 @@ body {
   width: 2px;
   background: var(--r-accent);
   height: 100%;
+  opacity: 0.92;
 }
 
 .receipt-barcode span:nth-child(3n) {
   width: 1px;
-  opacity: 0.7;
+  opacity: 0.65;
 }
 
 .receipt-barcode span:nth-child(5n) {

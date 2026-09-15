@@ -175,13 +175,13 @@ export default function DashboardPage() {
   if (!user) return null;
 
   const receiptPanel = (
-    <div className="flex w-full justify-center rounded-2xl border border-white/10 bg-black/20 p-3 sm:p-6">
+    <div className="receipt-stage">
       {loading ? (
-        <div className="flex h-64 w-full items-center justify-center text-sm text-brand-200">
+        <div className="flex h-64 w-full items-center justify-center text-sm text-slate-300">
           Loading your top {itemType}…
         </div>
       ) : receiptItems.length === 0 ? (
-        <div className="flex h-64 w-full items-center justify-center px-4 text-center text-sm text-brand-200">
+        <div className="flex h-64 w-full items-center justify-center px-4 text-center text-sm text-slate-300">
           No items to show for this selection.
         </div>
       ) : (

@@ -88,11 +88,11 @@ export function genresToReceiptItems(
 }
 
 function Barcode() {
-  const bars = Array.from({ length: 48 }, (_, i) => i);
+  const bars = Array.from({ length: 52 }, (_, i) => i);
   return (
     <div className="receipt-barcode" aria-hidden>
       {bars.map((i) => (
-        <span key={i} style={{ height: `${55 + ((i * 19) % 45)}%` }} />
+        <span key={i} style={{ height: `${58 + ((i * 23) % 42)}%` }} />
       ))}
     </div>
   );
@@ -110,12 +110,17 @@ export function Receipt({
   const now = new Date();
   const dateLabel = now.toLocaleDateString(undefined, {
     year: "numeric",
-    month: "numeric",
-    day: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  });
+  const timeLabel = now.toLocaleTimeString(undefined, {
+    hour: "2-digit",
+    minute: "2-digit",
   });
   const rangeLabel = TIME_RANGE_LABELS[timeRange].toUpperCase();
-  const orderNum = String(items.length).padStart(4, "0");
+  const orderNum = String((items.length * 17 + 41) % 10000).padStart(4, "0");
   const year = now.getFullYear();
+  const listener = (userName || "LISTENER").toUpperCase();
 
   const totalLabel =
     itemType === "tracks"
@@ -134,88 +139,101 @@ export function Receipt({
       role="img"
       aria-label={`Twinify receipt of ${items.length} ${itemType}`}
     >
-      <header className="text-center">
-        <p className="text-[1.65rem] font-bold leading-none tracking-wide">
-          TWINIFY
-        </p>
-        <p className="mt-2 text-[11px] uppercase tracking-[0.12em]">
-          {rangeLabel}
-        </p>
-        <p className="mt-3 text-[10px] uppercase tracking-wide">
-          ORDER #{orderNum} FOR {userName?.toUpperCase() || "LISTENER"}
-        </p>
-        <p className="mt-1 text-[10px]">{dateLabel}</p>
-      </header>
+      <div className="receipt-crinkle" aria-hidden />
+      <div className="receipt-body">
+        <header className="text-center">
+          <p className="text-[1.7rem] font-bold leading-none tracking-[0.08em]">
+            TWINIFY
+          </p>
+          <p className="mt-2.5 text-[10px] uppercase tracking-[0.18em]">
+            {rangeLabel}
+          </p>
+          <p className="mt-3 text-[10px] uppercase tracking-[0.06em]">
+            ORDER #{orderNum}
+          </p>
+          <p className="mt-1 text-[10px] uppercase tracking-[0.04em]">
+            FOR {listener}
+          </p>
+          <p className="mt-2 text-[10px] tabular-nums tracking-wide">
+            {dateLabel} · {timeLabel}
+          </p>
+        </header>
 
-      <hr className="receipt-dashed" />
+        <hr className="receipt-dashed" />
 
-      <div
-        className="grid grid-cols-[2rem_1fr_2.75rem] gap-x-1 text-[10px] font-semibold uppercase tracking-wider"
-        style={{ color: "var(--r-muted)" }}
-      >
-        <span>Qty</span>
-        <span>Item</span>
-        <span className="text-right">Amt</span>
-      </div>
-
-      <hr className="receipt-dashed" />
-
-      <ol className="m-0 list-none space-y-2.5 p-0">
-        {items.map((item) => (
-          <li
-            key={item.id}
-            className="grid grid-cols-[2rem_1fr_2.75rem] items-start gap-x-1 text-left"
-          >
-            <span className="text-[11px] tabular-nums">{item.rank}</span>
-            <div className="min-w-0">
-              <p className="truncate text-[11px] font-medium leading-snug">
-                {item.title}
-              </p>
-              {itemType !== "genres" ? (
-                <p
-                  className="truncate text-[9px] leading-snug"
-                  style={{ color: "var(--r-muted)" }}
-                >
-                  {item.subtitle}
-                </p>
-              ) : null}
-            </div>
-            <span className="text-right text-[11px] tabular-nums">
-              {item.amount}
-            </span>
-          </li>
-        ))}
-      </ol>
-
-      <hr className="receipt-dashed" />
-
-      <footer className="space-y-1 text-[10px]">
-        <div className="flex justify-between uppercase tracking-wider">
-          <span>Item Count:</span>
-          <span>{items.length}</span>
-        </div>
-        <div className="flex justify-between text-sm font-semibold uppercase tracking-wider">
-          <span>Total:</span>
-          <span>{totalLabel}</span>
-        </div>
-
-        <div className="pt-3 space-y-0.5" style={{ color: "var(--r-muted)" }}>
-          <p>CARD #: **** **** **** {year}</p>
-          <p>AUTH CODE: {orderNum}</p>
-          <p>CARDHOLDER: {userName?.toUpperCase() || "LISTENER"}</p>
-        </div>
-
-        <p className="pt-3 text-center text-[10px] font-semibold uppercase tracking-[0.14em]">
-          Thank you for visiting!
-        </p>
-        <Barcode />
-        <p
-          className="text-center text-[9px] tracking-widest"
+        <div
+          className="grid grid-cols-[2.1rem_minmax(0,1fr)_2.9rem] gap-x-1.5 text-[10px] font-semibold uppercase tracking-[0.12em]"
           style={{ color: "var(--r-muted)" }}
         >
-          twinify-app.vercel.app
-        </p>
-      </footer>
+          <span>Qty</span>
+          <span>Item</span>
+          <span className="text-right">Amt</span>
+        </div>
+
+        <hr className="receipt-dashed" />
+
+        <ol className="m-0 list-none space-y-2.5 p-0">
+          {items.map((item) => (
+            <li
+              key={item.id}
+              className="grid grid-cols-[2.1rem_minmax(0,1fr)_2.9rem] items-start gap-x-1.5 text-left"
+            >
+              <span className="text-[11px] tabular-nums leading-snug">
+                {String(item.rank).padStart(2, "0")}
+              </span>
+              <div className="min-w-0">
+                <p className="truncate text-[11px] font-medium leading-snug tracking-[0.01em]">
+                  {item.title}
+                </p>
+                {itemType !== "genres" ? (
+                  <p
+                    className="truncate text-[9px] leading-snug tracking-[0.01em]"
+                    style={{ color: "var(--r-muted)" }}
+                  >
+                    {item.subtitle}
+                  </p>
+                ) : null}
+              </div>
+              <span className="text-right text-[11px] tabular-nums leading-snug">
+                {item.amount}
+              </span>
+            </li>
+          ))}
+        </ol>
+
+        <hr className="receipt-dashed" />
+
+        <footer className="space-y-1 text-[10px]">
+          <div className="flex justify-between uppercase tracking-[0.08em]">
+            <span>Item Count</span>
+            <span className="tabular-nums">{items.length}</span>
+          </div>
+          <div className="flex justify-between text-[12px] font-semibold uppercase tracking-[0.08em]">
+            <span>Total</span>
+            <span className="tabular-nums">{totalLabel}</span>
+          </div>
+
+          <div
+            className="space-y-0.5 pt-3 tracking-[0.04em]"
+            style={{ color: "var(--r-muted)" }}
+          >
+            <p>CARD #: **** **** **** {year}</p>
+            <p>AUTH CODE: {orderNum}</p>
+            <p className="truncate">CARDHOLDER: {listener}</p>
+          </div>
+
+          <p className="pt-3.5 text-center text-[10px] font-semibold uppercase tracking-[0.16em]">
+            Thank you for visiting!
+          </p>
+          <Barcode />
+          <p
+            className="text-center text-[9px] tracking-[0.22em]"
+            style={{ color: "var(--r-muted)" }}
+          >
+            twinify-app.vercel.app
+          </p>
+        </footer>
+      </div>
     </div>
   );
 }

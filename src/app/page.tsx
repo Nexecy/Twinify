@@ -59,7 +59,7 @@ function LandingContent() {
             </a>
           </div>
 
-          <div className="animate-fade-up-delay relative mt-10 w-full max-w-[280px] sm:mt-12 sm:max-w-[300px]">
+          <div className="animate-fade-up-delay relative mt-10 w-full sm:mt-12">
             <DemoReceipt />
           </div>
 
@@ -112,42 +112,57 @@ function SpotifyIcon() {
 
 function DemoReceipt() {
   const demo = [
-    { rank: "01", title: "Blinding Lights", artist: "The Weeknd" },
-    { rank: "02", title: "As It Was", artist: "Harry Styles" },
-    { rank: "03", title: "Levitating", artist: "Dua Lipa" },
-    { rank: "04", title: "good 4 u", artist: "Olivia Rodrigo" },
-    { rank: "05", title: "Stay", artist: "The Kid LAROI, Justin Bieber" },
+    { rank: "01", title: "Blinding Lights", artist: "The Weeknd", amt: "3:20" },
+    { rank: "02", title: "As It Was", artist: "Harry Styles", amt: "2:47" },
+    { rank: "03", title: "Levitating", artist: "Dua Lipa", amt: "3:23" },
+    { rank: "04", title: "good 4 u", artist: "Olivia Rodrigo", amt: "2:58" },
+    { rank: "05", title: "Stay", artist: "The Kid LAROI, Justin Bieber", amt: "2:21" },
   ];
 
   return (
-    <div
-      className="receipt rotate-1 transition duration-500 hover:rotate-0"
-      data-theme="classic"
-    >
-      <header className="text-center">
-        <p className="brand-mark text-2xl font-extrabold" style={{ color: "var(--r-accent)" }}>
-          TWINIFY
-        </p>
-        <p className="mt-1 text-[10px] uppercase tracking-[0.2em] opacity-80">
-          Sample Receipt
-        </p>
-      </header>
-      <hr className="receipt-dashed" />
-      <ol className="m-0 list-none space-y-2 p-0">
-        {demo.map((row) => (
-          <li key={row.rank} className="flex gap-2 text-left text-xs">
-            <span className="w-6 text-right opacity-60">{row.rank}</span>
-            <div className="min-w-0">
-              <p className="truncate font-medium">{row.title}</p>
-              <p className="truncate text-[10px] opacity-60">{row.artist}</p>
-            </div>
-          </li>
-        ))}
-      </ol>
-      <hr className="receipt-dashed" />
-      <p className="text-center text-[9px] uppercase tracking-[0.18em] opacity-60">
-        Login to print yours
-      </p>
+    <div className="receipt-stage w-full max-w-[340px]">
+      <div className="receipt font-receipt-intl" data-theme="classic">
+        <div className="receipt-crinkle" aria-hidden />
+        <div className="receipt-body">
+          <header className="text-center">
+            <p className="text-[1.7rem] font-bold leading-none tracking-[0.08em]">
+              TWINIFY
+            </p>
+            <p className="mt-2.5 text-[10px] uppercase tracking-[0.18em]">
+              Sample Receipt
+            </p>
+            <p className="mt-3 text-[10px] uppercase tracking-[0.06em]">
+              ORDER #0005
+            </p>
+          </header>
+          <hr className="receipt-dashed" />
+          <div className="grid grid-cols-[2.1rem_minmax(0,1fr)_2.9rem] gap-x-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] opacity-70">
+            <span>Qty</span>
+            <span>Item</span>
+            <span className="text-right">Amt</span>
+          </div>
+          <hr className="receipt-dashed" />
+          <ol className="m-0 list-none space-y-2.5 p-0">
+            {demo.map((row) => (
+              <li
+                key={row.rank}
+                className="grid grid-cols-[2.1rem_minmax(0,1fr)_2.9rem] gap-x-1.5 text-left text-[11px]"
+              >
+                <span className="tabular-nums">{row.rank}</span>
+                <div className="min-w-0">
+                  <p className="truncate font-medium">{row.title}</p>
+                  <p className="truncate text-[9px] opacity-60">{row.artist}</p>
+                </div>
+                <span className="text-right tabular-nums">{row.amt}</span>
+              </li>
+            ))}
+          </ol>
+          <hr className="receipt-dashed" />
+          <p className="text-center text-[9px] uppercase tracking-[0.18em] opacity-60">
+            Login to print yours
+          </p>
+        </div>
+      </div>
     </div>
   );
 }
