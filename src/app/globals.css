@@ -89,6 +89,55 @@ img.no-drag {
   user-select: none;
 }
 
+/* Mon hover heart — desktop/fine pointer only */
+.mon-heart {
+  position: relative;
+}
+
+.mon-heart::after {
+  content: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mon-heart::after {
+    content: "♥";
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 0.15rem);
+    margin-left: -0.5em;
+    width: 1em;
+    text-align: center;
+    font-size: 0.95rem;
+    line-height: 1;
+    color: #c4b5fd;
+    opacity: 0;
+    transform: translateY(6px) scale(0.7);
+    pointer-events: none;
+    transition:
+      opacity 180ms ease,
+      transform 220ms ease;
+    text-shadow: 0 0 10px rgba(196, 181, 253, 0.55);
+  }
+
+  .mon-heart:hover::after {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: mon-heart-pop 700ms ease;
+  }
+}
+
+@keyframes mon-heart-pop {
+  0% {
+    transform: translateY(4px) scale(0.65);
+  }
+  45% {
+    transform: translateY(-2px) scale(1.18);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+
 .font-receipt-classic {
   font-family: var(--font-receipt-classic), ui-monospace, monospace;
 }

@@ -89,7 +89,7 @@ function LandingContent() {
             </p>
             <p className="mt-3 text-sm leading-relaxed text-brand-100/85 sm:text-base">
               Named by{" "}
-              <span className="inline-block rounded-md bg-brand-100/40 px-1.5 py-0.5 font-semibold text-brand-200 shadow-sm">
+              <span className="mon-heart inline-block rounded-md bg-brand-100/40 px-1.5 py-0.5 font-semibold text-brand-200 shadow-sm">
                 Mon
               </span>
               , styled in her favorite purple, and built with love by{" "}
