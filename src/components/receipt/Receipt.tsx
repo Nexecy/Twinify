@@ -158,28 +158,37 @@ export function Receipt({
   return (
     <div
       ref={receiptRef}
-      className={`receipt ${fontClass}`}
-      data-theme={theme}
-      data-font={font}
-      role="img"
-      aria-label={`Twynify receipt of ${items.length} ${itemType}`}
+      className="receipt-container"
     >
-      <div className="receipt-crinkle" aria-hidden />
-      <div className="receipt-body">
-        <header className="text-center">
-          <p className="text-[1.7rem] font-bold leading-none tracking-[0.08em]">
-            TWYNIFY
-          </p>
-          <p className="mt-2.5 text-[10px] uppercase tracking-[0.18em]">
-            {rangeLabel}
-          </p>
-          <p className="mt-3 text-[10px] uppercase tracking-[0.06em]">
-            ORDER #{orderNum} FOR {listener}
-          </p>
-          <p className="mt-1 text-[10px] uppercase tracking-[0.04em]">
-            {dateLabel}
-          </p>
-        </header>
+      <div
+        className={`receipt ${fontClass}`}
+        data-theme={theme}
+        data-font={font}
+        role="img"
+        aria-label={`Twynify receipt of ${items.length} ${itemType}`}
+      >
+        <div className="receipt-crinkle" aria-hidden />
+        <div className="receipt-body">
+          <header className="text-center">
+            <p className="text-[1.7rem] font-bold leading-none tracking-[0.08em]">
+              TWYNIFY
+            </p>
+            {itemType !== "genres" ? (
+              <p className="mt-2.5 text-[10px] uppercase tracking-[0.18em]">
+                {rangeLabel}
+              </p>
+            ) : null}
+            <p
+              className={`${
+                itemType !== "genres" ? "mt-3" : "mt-2.5"
+              } text-[10px] uppercase tracking-[0.06em]`}
+            >
+              ORDER #{orderNum} FOR {listener}
+            </p>
+            <p className="mt-1 text-[10px] uppercase tracking-[0.04em]">
+              {dateLabel}
+            </p>
+          </header>
 
         <hr className="receipt-dashed" />
 
@@ -256,6 +265,7 @@ export function Receipt({
           </p>
         </footer>
       </div>
+    </div>
     </div>
   );
 }

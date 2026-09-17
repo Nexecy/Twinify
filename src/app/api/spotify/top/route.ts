@@ -193,7 +193,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json(
         {
           error:
-            "Not enough genre data for this time period. Try a longer time period or listen to more artists on Spotify.",
+            "Not enough genre data. Try listening to more artists on Spotify.",
           items: [],
         },
         { status: 200 },

@@ -316,6 +316,16 @@ img.no-drag,
   }
 }
 
+.receipt-container {
+  position: relative;
+  width: 100%;
+  max-width: min(320px, 100%);
+  margin-inline: auto;
+  padding-top: 14px;
+  padding-bottom: 14px;
+  transform: rotate(-0.35deg);
+}
+
 /* Thermal paper receipt mockup */
 .receipt {
   --r-bg: #f3eee4;
@@ -365,7 +375,6 @@ img.no-drag,
     );
   letter-spacing: 0.01em;
   line-height: 1.35;
-  transform: rotate(-0.35deg);
   filter: contrast(1.02);
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.55) inset,

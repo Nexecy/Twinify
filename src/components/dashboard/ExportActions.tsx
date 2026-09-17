@@ -22,6 +22,10 @@ export function buildReceiptFilename(
   itemType: ItemType,
   timeRange: TimeRange,
 ): string {
+  if (itemType === "genres") {
+    return "twynify-top-genres.png";
+  }
+
   const rangeSlug =
     timeRange === "short_term"
       ? "last-month"

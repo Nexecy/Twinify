@@ -108,13 +108,15 @@ export function DashboardControls() {
         </select>
       </div>
 
-      <Segmented<TimeRange>
-        label="Time Period"
-        value={timeRange}
-        onChange={setTimeRange}
-        options={TIME_RANGES}
-        columns={3}
-      />
+      {itemType !== "genres" ? (
+        <Segmented<TimeRange>
+          label="Time Period"
+          value={timeRange}
+          onChange={setTimeRange}
+          options={TIME_RANGES}
+          columns={3}
+        />
+      ) : null}
 
       {itemType !== "stats" && itemType !== "genres" ? (
         <Segmented<ItemCount>
